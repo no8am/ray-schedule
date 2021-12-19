@@ -1,1 +1,3 @@
-This is a starter template for [Learn Next.js](https://nextjs.org/learn).
+**'ray schedule** is getting a facelift.
+
+Interested? Shoot us an email [here](mailto:hi@rayschedule.com).
