@@ -1,15 +1,10 @@
-import Head from 'next/head'
-import App from './app'
+import LandingPage from '../components/LandingPage';
 
 export default function Home() {
   return (
-    <div className="container">
-      <Head>
-        <title>'ray schedule</title>
-      </Head>
-
+    <div>
       <main>
-        <App />
+        <LandingPage />
       </main>
     </div>
   )}

@@ -6,12 +6,16 @@ const theme = createTheme({
   },
   typography: {
     fontFamily: [
-      'Century Schoolbook',
+      'Prompt',
+      'Helvitica Neue',
+      'Helvitica',
+      'Arial',
+      'sans-serif',
       ].join(','),
-    h3: {
-      fontSize: '1.2rem',
-      fontFamily: '"Courier New", "Helvetica", "Arial", sans-serif',
-    },
+    fontSize: 12,
+    h4: {
+      fontWeight: 900,
+    }
   },
 });
 
