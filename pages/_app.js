@@ -5,6 +5,7 @@ import Header from '../components/Header';
 import Head from 'next/head'
 
 import '../styles.scss'
+import '../dist/output.css'
 
 function MyApp({ Component, pageProps }) {
 
@@ -12,6 +13,8 @@ function MyApp({ Component, pageProps }) {
     <ThemeProvider theme={theme}>
       <Head>
         <title>'ray schedule - the student-made course scheduling solution</title>
+
+        <link href="/dist/output.css" rel="stylesheet" />
 
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin={true} />
