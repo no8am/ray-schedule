@@ -3,6 +3,7 @@ import { Card, CardContent, Typography, CardActions, Button, ButtonBase } from '
 
 import { useSelector, useDispatch } from 'react-redux'
 import { decrement, increment } from '/src/features/counter/counterSlice'
+import { enable, disable } from '/src/features/darkMode/darkModeSlice'
 
 export default function LandingPage () {
   
@@ -16,7 +17,7 @@ export default function LandingPage () {
           <div className={"flex flex-col items-center justify-center max-w-lg mx-auto gap-4 sm:pt-32"}>
             <div className={"flex flex-row flex-wrap items-stretch justify-center gap-4 w-full"}>
               <Card className={"min-w-xs max-w-xl"}>
-                <ButtonBase onClick={() => dispatch(increment())}>
+                <ButtonBase onClick={() => dispatch(enable())}>
                   <CardContent>
                     <Typography variant="h4">
                       Auto-scheduler
@@ -28,7 +29,7 @@ export default function LandingPage () {
                 </ButtonBase>
               </Card>
               <Card className={"min-w-xs max-w-xl"}>
-                <ButtonBase onClick={() => dispatch(decrement())}>
+                <ButtonBase onClick={() => dispatch(disable())}>
                   <CardContent>
                     <Typography variant="h4">
                       Manual schedule
