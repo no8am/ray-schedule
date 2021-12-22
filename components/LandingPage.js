@@ -1,7 +1,13 @@
 import { Fade } from '@mui/material';
 import { Card, CardContent, Typography, CardActions, Button, ButtonBase } from '@mui/material';
 
+import { useSelector, useDispatch } from 'react-redux'
+import { decrement, increment } from '/src/features/counter/counterSlice'
+
 export default function LandingPage () {
+  
+  const count = useSelector((state) => state.counter.value)
+  const dispatch = useDispatch()
 
   return (
     <div className={"p-0 m-0 w-screen flex items-center justify-center"}>
@@ -10,7 +16,7 @@ export default function LandingPage () {
           <div className={"flex flex-col items-center justify-center max-w-lg mx-auto gap-4 sm:pt-32"}>
             <div className={"flex flex-row flex-wrap items-stretch justify-center gap-4 w-full"}>
               <Card className={"min-w-xs max-w-xl"}>
-                <ButtonBase onClick={() => {}}>
+                <ButtonBase onClick={() => dispatch(increment())}>
                   <CardContent>
                     <Typography variant="h4">
                       Auto-scheduler
@@ -22,7 +28,7 @@ export default function LandingPage () {
                 </ButtonBase>
               </Card>
               <Card className={"min-w-xs max-w-xl"}>
-                <ButtonBase onClick={() => {}}>
+                <ButtonBase onClick={() => dispatch(decrement())}>
                   <CardContent>
                     <Typography variant="h4">
                       Manual schedule
@@ -34,6 +40,7 @@ export default function LandingPage () {
                 </ButtonBase>
               </Card>
             </div>
+            {count}
             {/* <Card className={"min-w-xs max-w-full"}>
               <ButtonBase onClick={() => {}}>
                 <CardContent>
