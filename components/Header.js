@@ -1,15 +1,15 @@
 import { Typography } from '@mui/material';
-import Image from 'next/image'
 import { Link, Button } from '@mui/material';
-import transparentLogo from '../public/ray schedule branding-09.svg'
 
 const Header = () => {
     return (
-        <div className="container" style={{padding: "1rem", display: "flex"}}>
-            <Image src={transparentLogo} height={200} className={"self-start"} />
-            <Button variant="text" href="/"> Home </Button>
-            <Button variant="text" href="/wiki"> Wiki </Button>
-            <Button variant="text" href="/about"> About </Button>
+        <div className="flex p-4 justify-center flex-col sm:gap-4 sm:flex-row">
+            <img src={'ray schedule branding-09.svg'} className={"max-h-20"} />
+            <div className="flex justify-center items-center gap-4">
+                <Button className="" variant="text" href="/wiki"> Wiki </Button>
+                <Button className="" variant="text" href="/about"> About </Button>
+                <Button className="" variant="outlined" href="/login"> Login </Button>
+            </div>
         </div>
     )
 }

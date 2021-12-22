@@ -1,17 +1,15 @@
 import { Fade } from '@mui/material';
 import { Card, CardContent, Typography, CardActions, Button, ButtonBase } from '@mui/material';
 
-import styles from '../components/LandingPage.module.scss'
-
 export default function LandingPage () {
 
   return (
-    <div className={styles.container}>
-      <div className={styles.landingPage}>
+    <div className={"p-0 m-0 w-screen flex items-center justify-center"}>
+      <div>
         <Fade in={true} timeout={1000}>
-          <div className={styles.landingPageContent}>
-            <div className={styles.mainOptions}>
-              <Card className={styles.card}>
+          <div className={"flex flex-col items-center justify-center max-w-lg mx-auto gap-4 sm:pt-32"}>
+            <div className={"flex flex-row flex-wrap items-stretch justify-center gap-4 w-full"}>
+              <Card className={"min-w-xs max-w-xl"}>
                 <ButtonBase onClick={() => {}}>
                   <CardContent>
                     <Typography variant="h4">
@@ -23,7 +21,7 @@ export default function LandingPage () {
                   </CardContent>
                 </ButtonBase>
               </Card>
-              <Card className={styles.card}>
+              <Card className={"min-w-xs max-w-xl"}>
                 <ButtonBase onClick={() => {}}>
                   <CardContent>
                     <Typography variant="h4">
@@ -36,7 +34,7 @@ export default function LandingPage () {
                 </ButtonBase>
               </Card>
             </div>
-            <Card className={styles.card} style={{maxWidth: "100%"}}>
+            {/* <Card className={"min-w-xs max-w-full"}>
               <ButtonBase onClick={() => {}}>
                 <CardContent>
                   <Typography variant="h5">
@@ -44,7 +42,7 @@ export default function LandingPage () {
                   </Typography>
                 </CardContent>
               </ButtonBase>
-            </Card>
+            </Card> */}
           </div>
         </Fade>
       </div>
