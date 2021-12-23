@@ -17,13 +17,13 @@ export const darkModeSlice = createSlice({
     toggle: (state) => {
       state.value = !state.value
     },
-    // incrementByAmount: (state, action) => {
-    //   state.value += action.payload
-    // },
+    setTo: (state, action) => {
+      state.value = action.payload
+    },
   },
 })
 
 // Action creators are generated for each case reducer function
-export const { enable, disable, toggle } = darkModeSlice.actions
+export const { enable, disable, toggle, setTo } = darkModeSlice.actions
 
 export default darkModeSlice.reducer
