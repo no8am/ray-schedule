@@ -1,5 +1,7 @@
 import algoliasearch from 'algoliasearch';
 import fetch from 'node-fetch';
+import fs from 'fs';
+
 import { hashStr, formatTitle } from './utils';
 import { colors2 } from './constants';
 require('dotenv').config({ path: `.env.local` })
@@ -8,7 +10,9 @@ const term = process.env.ALGOLIA_INDEX_NAME;
 let courses = {};
 const updateDetailedInfo = false;
 
-const updateCoursePreReqs = async (term, deptCode, courseNumber) => {
+const delay = ms => new Promise(resolve => setTimeout(resolve, ms))
+
+const updateCoursePreReqs = (term, deptCode, courseNumber) => {
   return fetch(`https://banner.ban.bucknell.edu/prodssb/bwckctlg.p_disp_course_detail?cat_term_in=${term}&subj_code_in=${deptCode}&crse_numb_in=${courseNumber}`, {
     "headers": {
       "accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9",
@@ -31,12 +35,14 @@ const updateCoursePreReqs = async (term, deptCode, courseNumber) => {
     "credentials": "include"
   }).then((response) => response.text())
     .then((data) => {
-      let v = data.match(/Prerequisites: <\/SPAN>\n<br \/>\n(.*?)\n<br \/>/g)
-      if (v) {
-        let a = v.join('').replace("\n", "").replace(/<[^>]*>/g, '')
-        // console.log(a)
-        return a;
-      } else { return ""; }
+      delay(500).then(() => {
+        let v = data.match(/Prerequisites: <\/SPAN>\n<br \/>\n(.*?)\n<br \/>/g)
+        if (v) {
+          let a = v.join('').replace("\n", "").replace(/<[^>]*>/g, '')
+          // console.log(a)
+          return a;
+        } else { return ""; }
+      })
     });
 }
 
@@ -68,7 +74,7 @@ const updateSectionInfo = (term, crn, deptCode) => {
     })
 }
 
-const getCourseInformation = async (term) => {
+const getCourseInformation = (term) => {
 	return fetch(`https://pubapps.bucknell.edu/CourseInformation/data/course/term/${term}`, {
     "headers": {
       "accept": "application/json, text/plain, */*",
@@ -99,8 +105,8 @@ const getCourseInformation = async (term) => {
 // });
 
 
-getCourseInformation(term).then(async data => {
-  data.forEach(async course => {
+getCourseInformation(term).then(data => {
+  data.forEach(course => {
 
     // this is to account for the Arabic 101 course
     const lessonType = ((course.Number.length > 3) && (course.Number.slice(-1) !== "A")) ? course.Number.slice(-1) : "";
@@ -124,21 +130,23 @@ getCourseInformation(term).then(async data => {
 
     if (lessonType === "") {
       courses[title].title = formatTitle(course);
-      // courses[title].courseInfo = await updateCoursePreReqs(course.Term, course.Subj, course.Number);
+      // courses[title].courseInfo = updateCoursePreReqs(course.Term, course.Subj, course.Number);
     }
   })
 
   const courseList = Object.values(courses);
+  fs.writeFileSync('updateCourses/backup.json', JSON.stringify(courses, null, 2));
+  console.log("update")
 
-  const client = algoliasearch(process.env.ALGOLIA_APP_ID, process.env.ALGOLIA_ADMIN_API);
-  const course_index = client.initIndex(term);
-  course_index
-    .partialUpdateObjects(courseList)
-    .then(({ objectIDs }) => {
-      console.log(objectIDs);
-      console.log("done updating")
-    })
-    .catch (err => console.error (err));
+    // const client = algoliasearch(process.env.ALGOLIA_APP_ID, process.env.ALGOLIA_ADMIN_API);
+    // const course_index = client.initIndex(term);
+    // course_index
+    //   .partialUpdateObjects(courseList)
+    //   .then(({ objectIDs }) => {
+    //     console.log(objectIDs);
+    //     console.log("done updating")
+    //   })
+    //   .catch (err => console.error (err));
 });
 
 
