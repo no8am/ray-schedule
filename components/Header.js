@@ -2,6 +2,7 @@ import { Typography } from '@mui/material';
 import { Button } from '@mui/material';
 import { useSelector } from "react-redux";
 import Link from 'next/link';
+import Login from './login';
 
 import NightModeSwitch from './NightModeSwitch';
 
@@ -22,9 +23,7 @@ const Header = () => {
                     <Button className="" variant="text"> About </Button>
                 </Link>
                 <NightModeSwitch />
-                <Link href="/login">
-                    <Button className="" variant="outlined"> Log In </Button>
-                </Link>
+                <Login />
             </div>
         </div>
     )
