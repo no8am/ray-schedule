@@ -136,7 +136,6 @@ getCourseInformation(term).then(data => {
 
   const courseList = Object.values(courses);
   fs.writeFileSync('updateCourses/backup.json', JSON.stringify(courses, null, 2));
-  console.log("update")
 
     // const client = algoliasearch(process.env.NEXT_PUBLIC_ALGOLIA_APP_ID, process.env.NEXT_PUBLIC_ALGOLIA_ADMIN_API);
     // const course_index = client.initIndex(term);

@@ -2,9 +2,9 @@ import Head from 'next/head'
 import { Fade } from '@mui/material';
 import { useSelector } from "react-redux";
 
-import NewSchedule from '../components/NewSchedule';
-import CourseCard from '../components/CourseCard';
-import AutoCompleteComponent from '../components/AutoCompleteComponent';
+import NewSchedule from '@components/NewSchedule';
+import CourseCard from '@components/CourseCard';
+import AutoCompleteComponent from '@components/AutocompleteComponent';
 
 export default function app() {
 

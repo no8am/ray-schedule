@@ -18,8 +18,6 @@ const AutocompleteComponent = (props) => {
     const ALGOLIA_SEARCH_ONLY_API = process.env.NEXT_PUBLIC_ALGOLIA_SEARCH_ONLY_API;
     const ALGOLIA_INDEX_NAME = process.env.NEXT_PUBLIC_ALGOLIA_INDEX_NAME;
 
-    console.log(ALGOLIA_APP_ID, ALGOLIA_SEARCH_ONLY_API, ALGOLIA_INDEX_NAME);
-
     const searchClient = algoliasearch(
         ALGOLIA_APP_ID,
         ALGOLIA_SEARCH_ONLY_API,
