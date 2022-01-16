@@ -8,9 +8,11 @@
   "dependencies": {
     "@emotion/react": "^11.7.1",
     "@emotion/styled": "^11.6.0",
+    "@mui/icons-material": "^5.2.5",
     "@mui/material": "^5.2.4",
     "@mui/styles": "^5.2.3",
     "@reduxjs/toolkit": "^1.7.1",
+    "@syncfusion/ej2-react-schedule": "^19.4.42",
     "algoliasearch": "^4.11.0",
     "dotenv": "^10.0.0",
     "eslint": "^8.5.0",

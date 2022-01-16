@@ -1,12 +1,12 @@
 import { configureStore } from '@reduxjs/toolkit'
-import counterReducer from '../features/counter/counterSlice'
 import darkModeReducer from '../features/darkMode/darkModeSlice'
 import userReducer from '../features/user/userSlice'
+import userCoursesReducer from '../features/userCourses/userCoursesSlice'
 
 export const store = configureStore({
   reducer: {
-    counter: counterReducer,
     darkMode: darkModeReducer,
-    user: userReducer
+    user: userReducer,
+    userCourses: userCoursesReducer,
   },
 })

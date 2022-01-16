@@ -2,8 +2,8 @@ import { Typography } from '@mui/material';
 import { Button } from '@mui/material';
 import { useSelector } from "react-redux";
 import Link from 'next/link';
-import Login from './login';
 
+import Login from './login';
 import NightModeSwitch from './NightModeSwitch';
 
 const Header = () => {
