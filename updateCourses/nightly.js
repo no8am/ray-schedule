@@ -6,7 +6,7 @@ import { hashStr, formatTitle } from './utils';
 import { colors2 } from './constants';
 require('dotenv').config({ path: `.env.local` })
 
-const term = process.env.ALGOLIA_INDEX_NAME;
+const term = process.env.NEXT_PUBLIC_ALGOLIA_INDEX_NAME;
 let courses = {};
 const updateDetailedInfo = false;
 
@@ -138,7 +138,7 @@ getCourseInformation(term).then(data => {
   fs.writeFileSync('updateCourses/backup.json', JSON.stringify(courses, null, 2));
   console.log("update")
 
-    // const client = algoliasearch(process.env.ALGOLIA_APP_ID, process.env.ALGOLIA_ADMIN_API);
+    // const client = algoliasearch(process.env.NEXT_PUBLIC_ALGOLIA_APP_ID, process.env.NEXT_PUBLIC_ALGOLIA_ADMIN_API);
     // const course_index = client.initIndex(term);
     // course_index
     //   .partialUpdateObjects(courseList)
