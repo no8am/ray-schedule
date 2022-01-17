@@ -118,7 +118,7 @@ getCourseInformation(term).then(data => {
     
     if (!courses[title]) {
       courses[title] = {
-        department,
+        title: "",
         color,
         sections: {},
         objectID,
@@ -126,29 +126,36 @@ getCourseInformation(term).then(data => {
     }
 
     courses[title].sections[course.Section] = course;
+    const ordered = Object.keys(courses[title].sections).sort().reduce(
+      (obj, key) => { 
+        obj[key] = courses[title].sections[key]; 
+        return obj;
+      }, 
+      {}
+    );
+    courses[title].sections = ordered;
+    // courses[title].sections[course.Section].sectionInfo = updateSectionInfo(course.Term, course.CRN, course.Subj)
+
     if (lessonType === "") {
-      courses[title].title = formatTitle(course);
+      const fTitle = formatTitle(course);
+      if (courses[title].title == "") {
+        courses[title].title = fTitle;
+      } else if (courses[title].title != fTitle) {
+        courses[title].title = `${course.Subj} ${courseNumber}`
+      }
     }
-
-    // courses[title]["sections" + lessonType] = [...courses[title].sections, {...course, color}];
-    // // courses[title]["sections" + lessonType] = [...courses[title].sections, {...course, color, sectionInfo: updateSectionInfo(course.Term, course.CRN, course.Subj)}];
-
-    // if (lessonType === "") {
-    //   courses[title].title = formatTitle(course);
-    //   // courses[title].courseInfo = updateCoursePreReqs(course.Term, course.Subj, course.Number);
-    // }
   })
 
   const courseList = Object.values(courses);
   fs.writeFileSync('updateCourses/backup.json', JSON.stringify(courses, null, 2));
 
-    const client = algoliasearch(process.env.NEXT_PUBLIC_ALGOLIA_APP_ID, process.env.NEXT_PUBLIC_ALGOLIA_ADMIN_API);
-    const course_index = client.initIndex(term);
-    course_index
-      .partialUpdateObjects(courseList)
-      .then(({ objectIDs }) => {
-        console.log(objectIDs);
-        console.log("done updating")
-      })
-      .catch (err => console.error (err));
+  const client = algoliasearch(process.env.NEXT_PUBLIC_ALGOLIA_APP_ID, process.env.NEXT_PUBLIC_ALGOLIA_ADMIN_API);
+  const course_index = client.initIndex(term);
+  course_index
+    .partialUpdateObjects(courseList)
+    .then(({ objectIDs }) => {
+      console.log(objectIDs);
+      console.log("done updating")
+    })
+    .catch (err => console.error (err));
 });

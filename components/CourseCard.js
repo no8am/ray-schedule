@@ -40,11 +40,13 @@ const CourseCard = ({ course }) => {
       />
       <CardContent>
         <Typography variant="body2" color="text.secondary">
-          {course["sections"].map(section => (
-            <div key={section.Id}>
-              {section.Footnote}
-            </div>
-          ))}
+          <ul>
+            {Object.values(course.sections).map(section => (
+              <li key={section.Section}>
+                {section.Section} - {section.Title}
+              </li>
+            ))}
+          </ul>
         </Typography>
       </CardContent>
       <CardActions disableSpacing>
