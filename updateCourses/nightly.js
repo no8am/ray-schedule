@@ -120,32 +120,35 @@ getCourseInformation(term).then(data => {
       courses[title] = {
         department,
         color,
-        sections: [],
+        sections: {},
         objectID,
       }
     }
 
-    courses[title]["sections" + lessonType] = [...courses[title].sections, {...course, color}];
-    // courses[title]["sections" + lessonType] = [...courses[title].sections, {...course, color, sectionInfo: updateSectionInfo(course.Term, course.CRN, course.Subj)}];
-
+    courses[title].sections[course.Section] = course;
     if (lessonType === "") {
       courses[title].title = formatTitle(course);
-      // courses[title].courseInfo = updateCoursePreReqs(course.Term, course.Subj, course.Number);
     }
+
+    // courses[title]["sections" + lessonType] = [...courses[title].sections, {...course, color}];
+    // // courses[title]["sections" + lessonType] = [...courses[title].sections, {...course, color, sectionInfo: updateSectionInfo(course.Term, course.CRN, course.Subj)}];
+
+    // if (lessonType === "") {
+    //   courses[title].title = formatTitle(course);
+    //   // courses[title].courseInfo = updateCoursePreReqs(course.Term, course.Subj, course.Number);
+    // }
   })
 
   const courseList = Object.values(courses);
   fs.writeFileSync('updateCourses/backup.json', JSON.stringify(courses, null, 2));
 
-    // const client = algoliasearch(process.env.NEXT_PUBLIC_ALGOLIA_APP_ID, process.env.NEXT_PUBLIC_ALGOLIA_ADMIN_API);
-    // const course_index = client.initIndex(term);
-    // course_index
-    //   .partialUpdateObjects(courseList)
-    //   .then(({ objectIDs }) => {
-    //     console.log(objectIDs);
-    //     console.log("done updating")
-    //   })
-    //   .catch (err => console.error (err));
+    const client = algoliasearch(process.env.NEXT_PUBLIC_ALGOLIA_APP_ID, process.env.NEXT_PUBLIC_ALGOLIA_ADMIN_API);
+    const course_index = client.initIndex(term);
+    course_index
+      .partialUpdateObjects(courseList)
+      .then(({ objectIDs }) => {
+        console.log(objectIDs);
+        console.log("done updating")
+      })
+      .catch (err => console.error (err));
 });
-
-
