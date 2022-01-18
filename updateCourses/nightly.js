@@ -125,15 +125,18 @@ getCourseInformation(term).then(data => {
       }
     }
 
-    courses[title].sections[course.Section] = course;
-    const ordered = Object.keys(courses[title].sections).sort().reduce(
-      (obj, key) => { 
-        obj[key] = courses[title].sections[key]; 
-        return obj;
-      }, 
-      {}
-    );
-    courses[title].sections = ordered;
+    const sectionLessonType = lessonType != "" ? `${lessonType}` : "A";
+    if (!courses[title].sections[sectionLessonType]) {courses[title].sections[sectionLessonType] = {}}
+    courses[title].sections[sectionLessonType][course.Section] = course;
+
+    // const ordered = Object.keys(courses[title].sections[sectionLessonType]).sort().reduce(
+    //   (obj, key) => { 
+    //     obj[key] = courses[title].sections[sectionLessonType][key]; 
+    //     return obj;
+    //   }, 
+    //   {}
+    // );
+    // courses[title].sections[sectionLessonType] = ordered;
     // courses[title].sections[course.Section].sectionInfo = updateSectionInfo(course.Term, course.CRN, course.Subj)
 
     if (lessonType === "") {
