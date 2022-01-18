@@ -22,7 +22,7 @@ export default function app() {
               <div className={"flex flex-row flex-wrap items-stretch justify-center gap-4 w-5/6 md:w-full sm:self-start"}>
                 <AutoCompleteComponent />
                 {courses.map((course) => (
-                  <CourseCard key={course.Id} course={course} />
+                  <CourseCard key={course.objectID} course={course} />
                 ))}
               </div>
               <div className={"flex flex-row flex-wrap items-stretch justify-center gap-4 w-5/6 sm:w-full sm:self-start"}>

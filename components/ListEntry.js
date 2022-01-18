@@ -24,14 +24,6 @@ import ListEntrySub from './ListEntrySub';
 
 const ListEntry = (props) => {
 
-  const courseAliases = {
-    "A": "Lecture",
-    "L": "Lab",
-    "P": "Problem Session",
-    "C": "Common Hour",
-    "R": "Recitation",
-  }
-
   const courseAliasesIcons = {
     "A": {
       type: "Lecture",
@@ -94,7 +86,7 @@ const ListEntry = (props) => {
       <Collapse in={expanded} timeout="auto" unmountOnExit>
         <CardContent>
           <List>
-            {theseSections.map((section) => <ListEntrySub key={section.Id} section={section} />)}
+            {theseSections.map((section) => <ListEntrySub key={section.Section} section={section} />)}
           </List>
         </CardContent>
       </Collapse>

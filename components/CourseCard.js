@@ -35,7 +35,7 @@ const CourseCard = ({ course }) => {
         <Typography variant="body2" color="text.secondary">
           <ul>
             {Object.values(course.sections).map(section => (
-              <p key={section.Id}>unused</p>
+              <p key={section.Section}>unused</p>
             ))}
           </ul>
         </Typography>
