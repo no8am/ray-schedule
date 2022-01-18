@@ -86,7 +86,7 @@ const ListEntry = (props) => {
       <Collapse in={expanded} timeout="auto" unmountOnExit>
         <CardContent>
           <List>
-            {theseSections.map((section) => <ListEntrySub key={section.Section} section={section} />)}
+            {theseSections.map((section) => <ListEntrySub key={section?.Section} section={section} />)}
           </List>
         </CardContent>
       </Collapse>
