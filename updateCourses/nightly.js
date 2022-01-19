@@ -121,12 +121,17 @@ getCourseInformation(term).then(data => {
         title: "",
         color,
         sections: {},
+        activeSections: {},
         objectID,
+        lectureSectionsHaveDifferentTitle: false,
       }
     }
 
     const sectionLessonType = lessonType != "" ? `${lessonType}` : "A";
-    if (!courses[title].sections[sectionLessonType]) {courses[title].sections[sectionLessonType] = {}}
+    if (!courses[title].sections[sectionLessonType]) {
+      courses[title].sections[sectionLessonType] = {}
+      courses[title].activeSections[sectionLessonType] = "" // fix
+    }
     courses[title].sections[sectionLessonType][course.Section] = course;
 
     // const ordered = Object.keys(courses[title].sections[sectionLessonType]).sort().reduce(
@@ -145,6 +150,7 @@ getCourseInformation(term).then(data => {
         courses[title].title = fTitle;
       } else if (courses[title].title != fTitle) {
         courses[title].title = `${course.Subj} ${courseNumber}`
+        courses[title].lectureSectionsHaveDifferentTitle = true;
       }
     }
   })

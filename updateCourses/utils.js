@@ -87,7 +87,7 @@ const formatMeetingTime = meetings => {
       result.push(string);
     }
   if (result.length === 0) return "N/A";
-  return result.join("\n");
+  return result.join(", ");
 }
 
 const formatMeetingRoom = meetings => {
