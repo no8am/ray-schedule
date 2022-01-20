@@ -1,5 +1,8 @@
 import React, { useState } from 'react'
 
+import { useDispatch, useSelector } from "react-redux";
+import { selectCourses, updateSection } from '../src/features/userCourses/userCoursesSlice';
+
 import Card from '@mui/material/Card';
 import Collapse from '@mui/material/Collapse';
 import Typography from '@mui/material/Typography';
@@ -12,8 +15,16 @@ import ListItemText from '@mui/material/ListItemText';
 
 const ListEntrySub = (props) => {
 
-  const { section, sectionType, showTitle } = props;
-  const handleClick = () => {};
+  const dispatch = useDispatch();
+  const { section, sectionType, courseId, showTitle } = props;
+
+  const courses = useSelector(selectCourses)
+  const course = courses[courses.findIndex(course => course.objectID === courseId)]
+  const selectedCourse = course.activeSections[sectionType];
+
+  const handleClick = () => {
+    dispatch(updateSection({ courseId, sectionType, section: section.Section }));
+  };
 
   const handleHour = (hour) => {
     if (hour == 0) {
@@ -56,7 +67,10 @@ const ListEntrySub = (props) => {
   }
 
   return(
-    <ListItemButton onClick={handleClick}>
+    <ListItemButton 
+      onClick={handleClick}
+      selected={(selectedCourse == section.Section) && (Object.values(course.sections[sectionType]).length > 1)}
+    >
       <ListItemIcon>
           <Typography variant="body1">
             {section?.Section}

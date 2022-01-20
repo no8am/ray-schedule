@@ -64,37 +64,48 @@ const ListEntry = (props) => {
   const [expanded, setExpanded] = useState(false);
   const handleExpandClick = () => setExpanded(!expanded);
 
+  const coolSections = theseSections.map((section) => <ListEntrySub 
+    key={section?.Section} 
+    section={section} 
+    sectionType={sectionType} 
+    courseId={course.objectID}
+    showTitle={course.lectureSectionsHaveDifferentTitle}
+  />)
+
   return(
     <div className="flex flex-col">
-      <ListItemButton onClick={handleExpandClick}>
-        <ListItemIcon>
-          {courseAliasesIcons[sectionType] ? courseAliasesIcons[sectionType].icon : null}
-        </ListItemIcon>
-        <ListItemText 
-          id={`switch-list-label-${sectionType}`} 
-          primary={courseAliasesIcons[sectionType] ? courseAliasesIcons[sectionType].type : null} 
-          secondary={`${theseSections.length} Section${(theseSections.length != 1) ? "s" : ""}`}
-        />
-        <ExpandMore
-          expand={expanded}
-          aria-expanded={expanded}
-          aria-label="show more"
-        >
-          <ExpandMoreIcon />
-        </ExpandMore>
-      </ListItemButton>
-      <Collapse in={expanded} timeout="auto" unmountOnExit>
-        <CardContent>
-          <List>
-            {theseSections.map((section) => <ListEntrySub 
-              key={section?.Section} 
-              section={section} 
-              sectionType={sectionType} 
-              showTitle={course.lectureSectionsHaveDifferentTitle}
-            />)}
-          </List>
-        </CardContent>
-      </Collapse>
+      {theseSections.length > 1 ? (
+        <div className="flex flex-col">
+          <ListItemButton onClick={handleExpandClick}>
+            <ListItemIcon>
+              {courseAliasesIcons[sectionType] ? courseAliasesIcons[sectionType].icon : null}
+            </ListItemIcon>
+            <ListItemText 
+              id={`switch-list-label-${sectionType}`} 
+              primary={courseAliasesIcons[sectionType] ? courseAliasesIcons[sectionType].type : null} 
+              secondary={`${theseSections.length} Section${(theseSections.length != 1) ? "s" : ""}`}
+            />
+            <ExpandMore
+              expand={expanded}
+              aria-expanded={expanded}
+              aria-label="show more"
+            >
+              <ExpandMoreIcon />
+            </ExpandMore>
+          </ListItemButton>
+          <Collapse in={expanded} timeout="auto" unmountOnExit>
+            <CardContent>
+              <List>
+                {coolSections}
+              </List>
+            </CardContent>
+          </Collapse>
+        </div>
+      ) : (
+        <div>
+          { coolSections }
+        </div>
+      )}
     </div>
   )
 }

@@ -1,4 +1,4 @@
-import { createSlice } from '@reduxjs/toolkit'
+import { createSlice, current } from '@reduxjs/toolkit'
 
 const initialState = {
     courses: [{
@@ -1912,13 +1912,28 @@ const userCoursesSlice = createSlice({
     initialState,
     reducers: {
         setCourses: (state, action) => {
-            state.courses = action.payload
+          state.courses = action.payload
+          // console.log(state.courses)
         },
         unsetCourses: (state) => {
             state.courses = null
         },
         addCourse: (state, action) => {
             // something!
+        },
+        updateSection: (state, action) => {
+          const { courseId, sectionType, section } = action.payload;
+          const courseIndex = state.courses.findIndex(course => course.objectID === courseId);
+          const courseCopy = [...state.courses];
+          courseCopy[courseIndex] = {
+            ...state.courses[courseIndex],
+            activeSections: {
+              ...state.courses[courseIndex].activeSections,
+              [sectionType]: section
+            }
+          };
+          state.courses = courseCopy;
+          // state.courses[courseId].activeSections[sectionType] = section;
         },
         removeCourse: (state, action) => {
             // something!
@@ -1944,6 +1959,7 @@ export const {
     unsetCourses,
     addCourse,
     removeCourse,
+    updateSection,
     setSchedules,
     unsetSchedules,
     addSchedule,

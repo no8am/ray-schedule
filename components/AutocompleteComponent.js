@@ -33,6 +33,10 @@ const AutocompleteComponent = (props) => {
 
     const courses = useSelector(selectCourses); 
     const setReduxCourses = (newCourses) => {
+      // const obj = newCourses.reduce((map, obj) => {
+      //   map[obj.objectID] = obj;
+      //   return map;
+      // }, {});
       dispatch(setCourses(newCourses));
     }
 
