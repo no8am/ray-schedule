@@ -16,7 +16,7 @@ function MyApp({ Component, pageProps }) {
     <Provider store={store}>
       <DarkThemeProvider>
         <Head>
-          <title>'ray schedule - the student-made course scheduling solution</title>
+          <title>&apos;ray schedule - the student-made course scheduling solution</title>
 
           <link href="/dist/output.css" rel="stylesheet" />
 
