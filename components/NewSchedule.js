@@ -76,29 +76,6 @@ const NewSchedule = (props) => {
     }).flat();
   }).flat();
 
-  console.log(intervals);
-
-          //   const start = {
-          //   ...handleHour(meeting.Start.slice(0,2)),
-          //   minute: meeting.Start.slice(2,)
-          // }
-          // const end = {
-          //   ...handleHour(meeting.End.slice(0,2)),
-          //   minute: meeting.End.slice(2,)
-          // }
-          // return { 
-          //   weekDay: meeting, 
-          //   start, 
-          //   end, 
-          //   courseTitle: course.title, 
-          //   color: course.color, 
-          //   startText: `${start.hour}:${start.minute} ${start.suffix}`, 
-          //   endText: `${end.hour}:${end.minute} ${end.suffix}`,
-          //   location: meeting.Location,
-          //   Crn: sectionId.Crn,
-          //   instructorString: sectionId?.Instructors?.map(instructor => instructor.Display.split(',').reverse().join(" ")).join(', '),
-          // }
-
   const onEventRendered = React.useCallback((args) => {
     let categoryColor = args.data.CategoryColor;
     if (!args.element || !categoryColor) { return; }
@@ -106,15 +83,6 @@ const NewSchedule = (props) => {
       backgroundColor: categoryColor,
     });
   }, []);
-
-  // const fullIntervals = () => {
-  //   const tempIntervalsTrans = tempIntervals.map(interval => {
-  //       let intCopy = { ...interval };
-  //       intCopy.color += "99"
-  //       return intCopy;
-  //     })
-  //   return intervals.concat(tempIntervalsTrans);
-  // }
 
   const data = intervals.map(interval => {
     let weekDayNum;

@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 import Head from 'next/head'
 import { Fade } from '@mui/material';
 import { useSelector } from "react-redux";
