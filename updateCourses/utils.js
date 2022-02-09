@@ -250,7 +250,7 @@ export const parseMeetingTimes = (section, intervals) => {
   const courseTitle = section.Subj + " " + section.Number;
   const { color, Crn } = section;
   const instructorString = section.Instructors.map(instructor => instructor.Display).join("; ");
-  let totalLectureTime = 0;
+  // let totalLectureTime = 0;
   let meeting;
   for (meeting of section.Meetings) {
     const startText = meeting.Start;
@@ -265,22 +265,17 @@ export const parseMeetingTimes = (section, intervals) => {
       hour: parseInt(endText.slice(0,2)),
       minute: parseInt(endText.slice(2,))
     }
-    let weekDays = "";
+    let weekDays = [];
     let weekDay;
-    if (meeting.M === "Y") weekDays += "M";
-    if (meeting.T === "Y") weekDays += "T";
-    if (meeting.W === "Y") weekDays += "W";
-    if (meeting.R === "Y") weekDays += "R";
-    if (meeting.F === "Y") weekDays += "F";
-    for (weekDay of weekDays) {
-      intervals.push({ weekDay, start, end, courseTitle, color, startText, endText, location, Crn, instructorString });
-      const lectureTime = (end.hour - start.hour) * 60 + (end.minute - start.minute);
-      totalLectureTime += lectureTime;
-    }
-    // const lectureTime = (end.hour - start.hour) * 60 + (end.minute - start.minute);
-    // totalLectureTime += lectureTime;
+    if (meeting.M === "Y") weekDays.push("M");
+    if (meeting.T === "Y") weekDays.push("T");
+    if (meeting.W === "Y") weekDays.push("W");
+    if (meeting.R === "Y") weekDays.push("R");
+    if (meeting.F === "Y") weekDays.push("F");
+    intervals.concat(weekDays.map((weekDay) => {
+      return { weekDay, start, end, courseTitle, color, startText, endText, location, Crn, instructorString }
+    }));
   }
-  return totalLectureTime;
 }
 
 export const parseCredits = (courses) => {

@@ -35,14 +35,19 @@ const CourseCard = ({ course }) => {
         <Typography variant="body2" color="text.secondary">
           <ul>
             {Object.values(course.sections).map(section => (
-              <p key={section?.Section}>unused</p>
+              // <p key={section?.Section}>unused</p>
+              <div key={section?.Section} />
             ))}
           </ul>
         </Typography>
       </CardContent>
-      <List subheader={<ListSubheader>Sections</ListSubheader>}>
+      <List 
+        subheader={
+          <ListSubheader>Sections</ListSubheader>
+        }
+      >
         {Object.keys(course.sections).map(sectionKey => (
-          <ListEntry course={course} sectionType={sectionKey} />
+          <ListEntry course={course} sectionType={sectionKey} key={sectionKey} />
         ))}
       </List>
     </Card>

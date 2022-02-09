@@ -4,6 +4,9 @@ import { ScheduleComponent, WorkWeek, Inject, ViewsDirective, ViewDirective } fr
 import { Button } from '@mui/material';
 import { Room, Person, Schedule } from '@mui/icons-material';
 
+import { useSelector } from "react-redux";
+import { selectCourses } from '../src/features/userCourses/userCoursesSlice';
+
 const pseudoProps = {
     intervals: [],
     tempIntervals: [],
@@ -15,9 +18,86 @@ const pseudoProps = {
     openCourseModal: () => {},
 }
 
+const handleHour = (hour) => {
+  if (hour == 0) {
+    return {"hour": 12, "suffix": "a.m."};
+  } else if (hour > 12) {
+    return {"hour": hour - 12, "suffix": "p.m."};
+  } else if (hour == 12) {
+    return {"hour": hour, "suffix": "p.m."};
+  } else {
+    return {"hour": hour - 0, "suffix": "a.m."};
+  }
+}
+
 const NewSchedule = (props) => {
 
-  const { intervals, tempIntervals, width, height, courses, openCourseModal } = pseudoProps;
+  const { tempIntervals, width, height, openCourseModal } = pseudoProps;
+
+  const courses = useSelector(selectCourses); 
+  const intervals = courses.map(course => {
+    return Object.keys(course.sections).map(sectionType => {
+      return Object.keys(course.sections[sectionType]).filter(sectionId => {
+        return course.activeSections[sectionType] == course.sections[sectionType][sectionId].Section
+      }).map(sectionId => {
+        const section = course.sections[sectionType][sectionId];
+        return section.Meetings.map(meeting => {
+          return Object.keys(meeting).filter(day => {
+            return ((meeting[day] == "Y"))
+          }).map(day => {
+            const start = {
+              ...handleHour(meeting.Start.slice(0,2)),
+              minute: meeting.Start.slice(2,),
+              hour24: meeting.Start.slice(0,2),
+            }
+            const end = {
+              ...handleHour(meeting.End.slice(0,2)),
+              minute: meeting.End.slice(2,),
+              hour24: meeting.End.slice(0,2),
+            }
+            return { 
+              weekDay: day, 
+              start, 
+              end, 
+              courseTitle: `${section.Subj} ${section.Number}`, 
+              color: course.color, 
+              startText: `${start.hour}:${start.minute} ${start.suffix}`, 
+              endText: `${end.hour}:${end.minute} ${end.suffix}`,
+              location: meeting.Location,
+              Crn: section?.Crn,
+              instructorString: section?.Instructors
+                ?.map(instructor => 
+                  instructor.Display.split(',').reverse().join(" "))
+                .join(', '),
+            }
+          })
+        }).flat();
+      }).flat();
+    }).flat();
+  }).flat();
+
+  console.log(intervals);
+
+          //   const start = {
+          //   ...handleHour(meeting.Start.slice(0,2)),
+          //   minute: meeting.Start.slice(2,)
+          // }
+          // const end = {
+          //   ...handleHour(meeting.End.slice(0,2)),
+          //   minute: meeting.End.slice(2,)
+          // }
+          // return { 
+          //   weekDay: meeting, 
+          //   start, 
+          //   end, 
+          //   courseTitle: course.title, 
+          //   color: course.color, 
+          //   startText: `${start.hour}:${start.minute} ${start.suffix}`, 
+          //   endText: `${end.hour}:${end.minute} ${end.suffix}`,
+          //   location: meeting.Location,
+          //   Crn: sectionId.Crn,
+          //   instructorString: sectionId?.Instructors?.map(instructor => instructor.Display.split(',').reverse().join(" ")).join(', '),
+          // }
 
   const onEventRendered = React.useCallback((args) => {
     let categoryColor = args.data.CategoryColor;
@@ -27,16 +107,16 @@ const NewSchedule = (props) => {
     });
   }, []);
 
-  const fullIntervals = () => {
-    const tempIntervalsTrans = tempIntervals.map(interval => {
-        let intCopy = { ...interval };
-        intCopy.color += "99"
-        return intCopy;
-      })
-    return intervals.concat(tempIntervalsTrans);
-  }
+  // const fullIntervals = () => {
+  //   const tempIntervalsTrans = tempIntervals.map(interval => {
+  //       let intCopy = { ...interval };
+  //       intCopy.color += "99"
+  //       return intCopy;
+  //     })
+  //   return intervals.concat(tempIntervalsTrans);
+  // }
 
-  const data = fullIntervals().map(interval => {
+  const data = intervals.map(interval => {
     let weekDayNum;
     switch (interval.weekDay) {
       case "M": weekDayNum = 1; break;
@@ -49,8 +129,8 @@ const NewSchedule = (props) => {
     const description = "coming soon!";
     return {
       Subject: interval.courseTitle,
-      StartTime: new Date(2018, 0, weekDayNum, interval.start.hour, interval.start.minute),
-      EndTime: new Date(2018, 0, weekDayNum, interval.end.hour, interval.end.minute),
+      StartTime: new Date(2018, 0, weekDayNum, interval.start.hour24, interval.start.minute),
+      EndTime: new Date(2018, 0, weekDayNum, interval.end.hour24, interval.end.minute),
       IsAllDay: false,
       CategoryColor: interval.color.toString(),
       Description: description,
@@ -61,19 +141,9 @@ const NewSchedule = (props) => {
 
   const eventRef = React.useRef();
 
-  const handleOpenCourseModal = (inProps) => {
-    for (let i = 0; i < courses.length; i++) {
-      let name = inProps.Subject.split(" ").join("")
-      let name2 = courses[i].sections[0].Subj + courses[i].sections[0].Number
-      if (name === name2) {
-        openCourseModal(courses[i]);
-      }
-    }
-  }
-
   const bulletPoints = (props) => {
     const [building, room] = props.Location ? props.Location.split(" ") : ["", ""];
-    let instructorList = props.Instructors.split("; ")
+    let instructorList = props.Instructors.split(", ")
     let instructorLinks = instructorList.map((instructor, index) => {
       let instructorPretty = instructor.split(" ")
       if (instructorPretty.length > 2) { instructorPretty.pop() }
@@ -82,7 +152,7 @@ const NewSchedule = (props) => {
       instructorPretty.join(" ");
       const end = index === instructorList.length - 1 ? " " : "; "
       return (
-      <span><a 
+      <span key={index}><a 
         style={{color: "black"}} 
         href={`https://www.ratemyprofessors.com/search/teachers?query=${instructorPretty}&sid=U2Nob29sLTE0MA==`} 
         target="_blank" 
@@ -142,9 +212,6 @@ const NewSchedule = (props) => {
         alignItems: "flex-start",
       }}>
         {bulletPoints(props)}
-        <div className="description" style={{padding: "15px"}}>
-          <Button variant="outlined" color="primary" onClick={() => {handleOpenCourseModal(props)}}>Edit</Button>
-        </div> 
       </div>
     )
   }
