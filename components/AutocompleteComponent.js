@@ -32,12 +32,9 @@ const AutocompleteComponent = (props) => {
     const noFilterIcon = props?.noFilterIcon;
 
     const courses = useSelector(selectCourses); 
-    const setReduxCourses = (newCourses) => {
-      // const obj = newCourses.reduce((map, obj) => {
-      //   map[obj.objectID] = obj;
-      //   return map;
-      // }, {});
-      dispatch(setCourses(newCourses));
+    const setReduxCourses = (props) => {
+      let coursesCopy = [...props.courses];
+      dispatch(setCourses(coursesCopy));
     }
 
     useEffect(() => {
@@ -61,7 +58,7 @@ const AutocompleteComponent = (props) => {
       multiple
       value={courses}
       {...noFilterIcon ? {open: true} : {}}
-      onChange={(e, courses) => setReduxCourses(courses) }
+      onChange={(e, courses) => setReduxCourses({courses, e})}
       onInputChange={(e, query) => setQuery(query) }
       id="add-course-autocomplete"
       options={filteredCourseList}

@@ -1,5 +1,11 @@
 import React, { useEffect, useState } from 'react';
 
+import RecordVoiceOverOutlinedIcon from '@mui/icons-material/RecordVoiceOverOutlined';
+import ScienceOutlinedIcon from '@mui/icons-material/ScienceOutlined';
+import StickyNote2OutlinedIcon from '@mui/icons-material/StickyNote2Outlined';
+import GroupsOutlinedIcon from '@mui/icons-material/GroupsOutlined';
+import QuestionAnswerOutlinedIcon from '@mui/icons-material/QuestionAnswerOutlined';
+
 export const timeToMinute = timeObj => {
   const { hour, minute } = timeObj;
   return 60 * hour + minute;
@@ -290,4 +296,27 @@ export const parseCredits = (courses) => {
   }
 
   return totalCredits;
+}
+
+export const courseAliasesIcons = {
+  "A": {
+    type: "Lecture",
+    icon: <RecordVoiceOverOutlinedIcon />,
+  },
+  "L": {
+    type: "Lab",
+    icon: <ScienceOutlinedIcon />,
+  },
+  "P": {
+    type: "Problem Session",
+    icon: <StickyNote2OutlinedIcon />,
+  },
+  "C": {
+    type: "Common Hour",
+    icon: <GroupsOutlinedIcon />,
+  },
+  "R": {
+    type: "Recitation",
+    icon: <QuestionAnswerOutlinedIcon />,
+  },
 }

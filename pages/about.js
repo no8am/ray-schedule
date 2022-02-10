@@ -12,6 +12,11 @@ export default function About() {
           <Fade in={true} timeout={1000}>
             <div className={"flex flex-col items-center justify-center max-w-lg mx-auto gap-4 sm:pt-32"}>
               <div className={"flex flex-row flex-wrap items-stretch justify-center gap-4 w-5/6 sm:w-full"}>
+              <h3>Our Team</h3>
+                
+              <h3>Previous Team Members</h3>
+
+
               {compiler(`
 ### Welcome to **'ray schedule**!
 

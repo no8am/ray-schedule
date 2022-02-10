@@ -7,17 +7,6 @@ import { Room, Person, Schedule } from '@mui/icons-material';
 import { useSelector } from "react-redux";
 import { selectCourses } from '../src/features/userCourses/userCoursesSlice';
 
-const pseudoProps = {
-    intervals: [],
-    tempIntervals: [],
-    margin: { left: 0, right: 0, top: 0, bottom: 0 },
-    width: 'auto',
-    height: 'auto',
-    className: 'schedule',
-    courses: [],
-    openCourseModal: () => {},
-}
-
 const handleHour = (hour) => {
   if (hour == 0) {
     return {"hour": 12, "suffix": "a.m."};
@@ -31,8 +20,6 @@ const handleHour = (hour) => {
 }
 
 const NewSchedule = (props) => {
-
-  const { tempIntervals, width, height, openCourseModal } = pseudoProps;
 
   const courses = useSelector(selectCourses); 
   const intervals = courses.map(course => {
@@ -114,10 +101,8 @@ const NewSchedule = (props) => {
     let instructorList = props.Instructors.split(", ")
     let instructorLinks = instructorList.map((instructor, index) => {
       let instructorPretty = instructor.split(" ")
-      if (instructorPretty.length > 2) { instructorPretty.pop() }
-      instructorPretty = instructorPretty.map(word => word.replace(",", ""));
-      instructorPretty.unshift(instructorPretty.pop())
       instructorPretty.join(" ");
+      // FIX
       const end = index === instructorList.length - 1 ? " " : "; "
       return (
       <span key={index}><a 
@@ -186,8 +171,8 @@ const NewSchedule = (props) => {
 
   return (
     <ScheduleComponent 
-      width = {width}
-      height = {height}
+      // width = {width}
+      // height = {height}
       className = "schedule"
       readonly = {true}
       timeScale={{ enable: true, interval: 60, slotCount: 2 }}

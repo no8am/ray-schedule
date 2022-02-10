@@ -70,6 +70,7 @@ const ListEntrySub = (props) => {
     <ListItemButton 
       onClick={handleClick}
       selected={(selectedCourse == section.Section) && (Object.values(course.sections[sectionType]).length > 1)}
+      dense={true}
     >
       <ListItemIcon>
           <Typography variant="body1">

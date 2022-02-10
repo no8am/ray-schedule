@@ -20,7 +20,7 @@ export default function app() {
         <div>
           <Fade in={true} timeout={1000}>
             <div className={"flex sm:flex-row flex-col items-center justify-center max-w-7xl sm:px-12 mx-auto gap-4"}>
-              <div className={"flex flex-row flex-wrap items-stretch justify-center gap-4 w-5/6 md:w-full sm:self-start"}>
+              <div className={"flex flex-row flex-wrap items-stretch justify-center gap-4 w-5/6 md:max-w-sm md:w-full sm:self-start"}>
                 <AutoCompleteComponent />
                 {courses.map((course) => (
                   <CourseCard key={course.objectID} course={course} />

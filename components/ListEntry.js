@@ -5,6 +5,7 @@ import Collapse from '@mui/material/Collapse';
 import Typography from '@mui/material/Typography';
 import CardContent from '@mui/material/CardContent';
 import IconButton from '@mui/material/IconButton';
+import Tooltip from '@mui/material/Tooltip';
 
 import List from '@mui/material/List';
 import ListItemButton from '@mui/material/ListItemButton';
@@ -12,40 +13,13 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import RecordVoiceOverOutlinedIcon from '@mui/icons-material/RecordVoiceOverOutlined';
-import ScienceOutlinedIcon from '@mui/icons-material/ScienceOutlined';
-import StickyNote2OutlinedIcon from '@mui/icons-material/StickyNote2Outlined';
-import GroupsOutlinedIcon from '@mui/icons-material/GroupsOutlined';
-import QuestionAnswerOutlinedIcon from '@mui/icons-material/QuestionAnswerOutlined';
-
+import WarningTwoToneIcon from '@mui/icons-material/WarningTwoTone';
 import { styled } from '@mui/material/styles';
 
+import { courseAliasesIcons } from '/updateCourses/utils'
 import ListEntrySub from './ListEntrySub';
 
 const ListEntry = (props) => {
-
-  const courseAliasesIcons = {
-    "A": {
-      type: "Lecture",
-      icon: <RecordVoiceOverOutlinedIcon />,
-    },
-    "L": {
-      type: "Lab",
-      icon: <ScienceOutlinedIcon />,
-    },
-    "P": {
-      type: "Problem Session",
-      icon: <StickyNote2OutlinedIcon />,
-    },
-    "C": {
-      type: "Common Hour",
-      icon: <GroupsOutlinedIcon />,
-    },
-    "R": {
-      type: "Recitation",
-      icon: <QuestionAnswerOutlinedIcon />,
-    },
-  }
 
   const ExpandMore = styled((props) => {
     const { expand, ...other } = props;
@@ -76,7 +50,10 @@ const ListEntry = (props) => {
     <div className="flex flex-col">
       {theseSections.length > 1 ? (
         <div className="flex flex-col">
-          <ListItemButton onClick={handleExpandClick}>
+          <ListItemButton 
+            onClick={handleExpandClick} 
+            dense={true}
+          >
             <ListItemIcon>
               {courseAliasesIcons[sectionType] ? courseAliasesIcons[sectionType].icon : null}
             </ListItemIcon>
@@ -85,6 +62,13 @@ const ListEntry = (props) => {
               primary={courseAliasesIcons[sectionType] ? courseAliasesIcons[sectionType].type : null} 
               secondary={`${theseSections.length} Section${(theseSections.length != 1) ? "s" : ""}`}
             />
+            {(course.activeSections[sectionType] == "") && (
+              <Tooltip title="You do not have a section selected for this section type.">
+                <IconButton>
+                  <WarningTwoToneIcon sx={{color: 'warning.light'}} />
+                </IconButton>
+              </Tooltip>
+            )}
             <ExpandMore
               expand={expanded}
               aria-expanded={expanded}

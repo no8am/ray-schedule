@@ -130,9 +130,12 @@ getCourseInformation(term).then(data => {
     const sectionLessonType = lessonType != "" ? `${lessonType}` : "A";
     if (!courses[title].sections[sectionLessonType]) {
       courses[title].sections[sectionLessonType] = {}
+      courses[title].activeSections[sectionLessonType] = course.Section // fix
+    } else {
       courses[title].activeSections[sectionLessonType] = "" // fix
     }
     courses[title].sections[sectionLessonType][course.Section] = course;
+
 
     // const ordered = Object.keys(courses[title].sections[sectionLessonType]).sort().reduce(
     //   (obj, key) => { 
