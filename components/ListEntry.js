@@ -47,9 +47,9 @@ const ListEntry = (props) => {
   />)
 
   return(
-    <div className="flex flex-col">
+    <React.Fragment>
       {theseSections.length > 1 ? (
-        <div className="flex flex-col">
+        <div className="w-full">
           <ListItemButton 
             onClick={handleExpandClick} 
             dense={true}
@@ -78,7 +78,7 @@ const ListEntry = (props) => {
             </ExpandMore>
           </ListItemButton>
           <Collapse in={expanded} timeout="auto" unmountOnExit>
-            <CardContent>
+            <CardContent className="pt-0" sx={{pb: 0}}>
               <List>
                 {coolSections}
               </List>
@@ -90,7 +90,7 @@ const ListEntry = (props) => {
           { coolSections }
         </div>
       )}
-    </div>
+    </React.Fragment>
   )
 }
 

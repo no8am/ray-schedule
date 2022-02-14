@@ -4,6 +4,13 @@ import { ScheduleComponent, WorkWeek, Inject, ViewsDirective, ViewDirective } fr
 import { Button } from '@mui/material';
 import { Room, Person, Schedule } from '@mui/icons-material';
 
+import List from '@mui/material/List';
+import ListItem from '@mui/material/ListItem';
+import ListItemButton from '@mui/material/ListItemButton';
+import ListItemIcon from '@mui/material/ListItemIcon';
+import ListItemText from '@mui/material/ListItemText';
+import Typography from '@mui/material/Typography';
+
 import { useSelector } from "react-redux";
 import { selectCourses } from '../src/features/userCourses/userCoursesSlice';
 
@@ -17,6 +24,15 @@ const handleHour = (hour) => {
   } else {
     return {"hour": hour - 0, "suffix": "a.m."};
   }
+}
+
+const pickTextColor = (bgColor, lightColor, darkColor) => {
+  var color = (bgColor.charAt(0) === '#') ? bgColor.substring(1, 7) : bgColor;
+  var r = parseInt(color.substring(0, 2), 16); // hexToR
+  var g = parseInt(color.substring(2, 4), 16); // hexToG
+  var b = parseInt(color.substring(4, 6), 16); // hexToB
+  return (((r * 0.299) + (g * 0.587) + (b * 0.114)) > 186) ?
+    darkColor : lightColor;
 }
 
 const NewSchedule = (props) => {
@@ -46,7 +62,8 @@ const NewSchedule = (props) => {
               weekDay: day, 
               start, 
               end, 
-              courseTitle: `${section.Subj} ${section.Number}`, 
+              courseSubjNumb: `${section.Subj} ${section.Number}`, 
+              courseTitle: section.Title,
               color: course.color, 
               startText: `${start.hour}:${start.minute} ${start.suffix}`, 
               endText: `${end.hour}:${end.minute} ${end.suffix}`,
@@ -83,7 +100,8 @@ const NewSchedule = (props) => {
     }
     const description = "coming soon!";
     return {
-      Subject: interval.courseTitle,
+      Subject: interval.courseSubjNumb,
+      FullName: interval.courseTitle,
       StartTime: new Date(2018, 0, weekDayNum, interval.start.hour24, interval.start.minute),
       EndTime: new Date(2018, 0, weekDayNum, interval.end.hour24, interval.end.minute),
       IsAllDay: false,
@@ -98,15 +116,14 @@ const NewSchedule = (props) => {
 
   const bulletPoints = (props) => {
     const [building, room] = props.Location ? props.Location.split(" ") : ["", ""];
-    let instructorList = props.Instructors.split(", ")
-    let instructorLinks = instructorList.map((instructor, index) => {
+    const instructorList = props.Instructors.split(", ")
+    const instructorLinks = instructorList.map((instructor, index) => {
       let instructorPretty = instructor.split(" ")
-      instructorPretty.join(" ");
-      // FIX
-      const end = index === instructorList.length - 1 ? " " : "; "
+      if (instructorPretty.length > 3) { instructorPretty.splice(self.length - 2, 1) }
+      instructorPretty = instructorPretty.join("%20");
+      const end = index === instructorList.length - 1 ? " " : (<br />);
       return (
       <span key={index}><a 
-        style={{color: "black"}} 
         href={`https://www.ratemyprofessors.com/search/teachers?query=${instructorPretty}&sid=U2Nob29sLTE0MA==`} 
         target="_blank" 
         rel="noopener noreferrer"
@@ -115,59 +132,61 @@ const NewSchedule = (props) => {
     })
 
     return (
-      <div className="bullet-point-info" style={{padding: "10px", fontSize: "10pt"}}>
-        <div style={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "left",
-          }}>
-            <Schedule style={{padding: "10px 10px 10px 0px"}}/>
-            <span>
-              {props.StartTime.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})} - {props.EndTime.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}
-            </span>
-          </div>
+      <List dense={true}>
+        <ListItemButton>
+          <ListItemIcon>
+            <Schedule />
+          </ListItemIcon>
+          <ListItemText 
+            primary={`${props.StartTime.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})} - ${props.EndTime.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}`} 
+            // secondary={props.StartTime.toLocaleString()} 
+          />
+        </ListItemButton>
         {(building) && (
-          <div style={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "left",
-          }}>
-            <Room style={{padding: "10px 10px 10px 0px"}}/>
-            <span>
-              <a 
-              style={{color: "black"}} 
-              href={`https://my.bucknell.edu/apps/m/building/${building}`} 
-              target="_blank" 
-              rel="noopener noreferrer">
-                {building}&nbsp;{room}
-              </a>
-            </span>
-          </div>
+          <ListItem>
+            <ListItemIcon>
+              <Room />
+            </ListItemIcon>
+            <ListItemText 
+              primary={(<a 
+                href={`https://my.bucknell.edu/apps/m/building/${building}`} 
+                target="_blank" 
+                rel="noopener noreferrer">
+                  {building}&nbsp;{room}
+                </a>)} 
+              // secondary={room} 
+            />
+          </ListItem>
         )}
-        <div style={{
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "left",
-        }}>
-          <Person style={{padding: "10px 10px 10px 0px"}}/>
-          <span>{instructorLinks}</span>
-        </div>
-    </div>
+        <ListItem>
+          <ListItemIcon>
+            <Person />
+          </ListItemIcon>
+          <ListItemText primary={instructorLinks}/>
+        </ListItem>
+      </List>
     )
   }
 
   const contentTemplate = (props) => {
     return (
-      <div className="event popup content" style={{
-        fontSize: '1.5em',
-        display: "flex",
-        justifyContent: "space-between",
-        alignItems: "flex-start",
-      }}>
-        {bulletPoints(props)}
-      </div>
+      bulletPoints(props)
     )
   }
+
+  const headerTemplate = (props) => {
+    console.log(props)
+    const c = pickTextColor(props.CategoryColor, "#fff", "#000");
+    return(
+      <div className="px-5 py-3">
+        <Typography variant="h6" sx={{color: c, fontWeight: 'bold'}}>
+          {props.Subject}
+        </Typography>
+        <Typography variant="subtitle1" sx={{color: c}}>
+          {props.FullName}
+        </Typography>
+      </div>
+    )}
 
   return (
     <ScheduleComponent 
@@ -183,20 +202,26 @@ const NewSchedule = (props) => {
       eventSettings = {{ 
         dataSource: data,
         fields: {
-            subject: { name: 'Subject' },
-            isAllDay: { name: 'IsAllDay' },
-            startTime: { name: 'StartTime' },
-            endTime: { name: 'EndTime' },
-            categoryColor: { name: 'CategoryColor' },
-            description: { name: 'Description' },
-            location: { name: 'Location' },
-            instructors: { name: 'Instructors' },
+          subject: { name: 'Subject' },
+          fullName: { name: 'FullName' },
+          isAllDay: { name: 'IsAllDay' },
+          startTime: { name: 'StartTime' },
+          endTime: { name: 'EndTime' },
+          categoryColor: { name: 'CategoryColor' },
+          description: { name: 'Description' },
+          location: { name: 'Location' },
+          instructors: { name: 'Instructors' },
         }
       }}
       ref={eventRef}
       quickInfoTemplates={{
+        header: headerTemplate,
         content: contentTemplate
       }}
+      onActionComplete = {(args) => {
+        if (args.requestType == 'dateNavigate') {
+          eventRef.current.scrollTo('08', new Date(2018, 0, 1));
+      }}}
     >
       <ViewsDirective>
         <ViewDirective option='WorkWeek' startHour='08:00' endHour='22:00'/>
