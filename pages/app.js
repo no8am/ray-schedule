@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import Head from 'next/head'
-import { Fade } from '@mui/material';
+import { Fade, Divider } from '@mui/material';
 import { useSelector } from "react-redux";
 
 import NewSchedule from '@components/NewSchedule';
@@ -22,6 +22,7 @@ export default function app() {
             <div className={"flex sm:flex-row flex-col items-center justify-center max-w-7xl sm:px-12 mx-auto gap-4"}>
               <div className={"flex flex-row flex-wrap items-stretch justify-center gap-4 w-5/6 md:max-w-sm md:w-full sm:self-start"}>
                 <AutoCompleteComponent />
+                {(courses.length > 0) && (<Divider light></Divider>)}
                 {courses.map((course) => (
                   <CourseCard key={course.objectID} course={course} />
                 ))}

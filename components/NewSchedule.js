@@ -158,12 +158,12 @@ const NewSchedule = (props) => {
             />
           </ListItem>
         )}
-        <ListItem>
+        {(props.Instructors != []) && (<ListItem>
           <ListItemIcon>
             <Person />
           </ListItemIcon>
           <ListItemText primary={instructorLinks}/>
-        </ListItem>
+        </ListItem>)}
       </List>
     )
   }
@@ -222,6 +222,9 @@ const NewSchedule = (props) => {
         if (args.requestType == 'dateNavigate') {
           eventRef.current.scrollTo('08', new Date(2018, 0, 1));
       }}}
+      onEventClick = {(args) => {
+        console.log(args)
+      }}
     >
       <ViewsDirective>
         <ViewDirective option='WorkWeek' startHour='08:00' endHour='22:00'/>

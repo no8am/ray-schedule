@@ -34,7 +34,7 @@ const userCoursesSlice = createSlice({
           // state.courses[courseId].activeSections[sectionType] = section;
         },
         removeCourse: (state, action) => {
-            // something!
+            state.courses = [...state.courses.filter(course => course.objectID !== action.payload)]
         },
         setSchedules: (state, action) => {
             state.schedules = action.payload

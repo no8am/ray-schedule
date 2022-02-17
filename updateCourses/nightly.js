@@ -122,8 +122,12 @@ getCourseInformation(term).then(data => {
         color,
         sections: {},
         activeSections: {},
+        possibleMeetings: [],
+        possibleRequirements: [],
+        possibleInstructors: [],
         objectID,
         lectureSectionsHaveDifferentTitle: false,
+        lectureOnly: true,
       }
     }
 
@@ -135,6 +139,8 @@ getCourseInformation(term).then(data => {
       courses[title].activeSections[sectionLessonType] = "" // fix
     }
     courses[title].sections[sectionLessonType][course.Section] = course;
+    courses[title].possibleRequirements.push(...course.Reqs);
+    courses[title].possibleInstructors.push(...course.Instructors.map(i => i["Display"]));
 
 
     // const ordered = Object.keys(courses[title].sections[sectionLessonType]).sort().reduce(
@@ -147,7 +153,7 @@ getCourseInformation(term).then(data => {
     // courses[title].sections[sectionLessonType] = ordered;
     // courses[title].sections[course.Section].sectionInfo = updateSectionInfo(course.Term, course.CRN, course.Subj)
 
-    if (lessonType === "") {
+    if (sectionLessonType == "A") {
       const fTitle = formatTitle(course);
       if (courses[title].title == "") {
         courses[title].title = fTitle;
@@ -155,6 +161,12 @@ getCourseInformation(term).then(data => {
         courses[title].title = `${course.Subj} ${courseNumber}`
         courses[title].lectureSectionsHaveDifferentTitle = true;
       }
+      if (courses[title].lectureOnly) {
+        courses[title].possibleMeetings.push(...course.Meetings);
+      }
+    } else {
+      courses[title].lectureOnly = false;
+      courses[title].possibleMeetings = [];
     }
   })
 

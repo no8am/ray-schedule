@@ -9,6 +9,7 @@ import IconButton from '@mui/material/IconButton';
 import Avatar from '@mui/material/Avatar';
 import Typography from '@mui/material/Typography';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import DeleteIcon from '@mui/icons-material/Delete';
 import Collapse from '@mui/material/Collapse';
 
 import List from '@mui/material/List';
@@ -19,8 +20,12 @@ import Alert from '@mui/material/Alert';
 
 import ListEntry from './ListEntry';
 import { courseAliasesIcons } from '/updateCourses/utils'
+import { useDispatch } from 'react-redux';
+import { removeCourse } from '../src/features/userCourses/userCoursesSlice';
 
 const CourseCard = ({ course }) => {
+
+  const dispatch = useDispatch();
 
   const ExpandMore = styled((props) => {
     const { expand, ...other } = props;
@@ -48,6 +53,9 @@ const CourseCard = ({ course }) => {
         }
         title={<b>{course.title}</b>}
         subheader={(course.lectureSectionsHaveDifferentTitle && (course.activeSections["A"] != "")) ? course.sections.A[course.activeSections.A].Title : ""}
+        action={(<IconButton aria-label="delete" onClick={() => dispatch(removeCourse(course.objectID))}>
+          <DeleteIcon>{course.objectID}</DeleteIcon>
+        </IconButton>)}
       />
       <List dense={true} className="w-full">
         {(unselectedSectionTypes.length > 0) && (
