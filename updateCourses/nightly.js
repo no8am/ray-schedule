@@ -8,6 +8,8 @@ require('dotenv').config({ path: `.env.local` })
 
 const term = process.env.NEXT_PUBLIC_ALGOLIA_INDEX_NAME;
 let courses = {};
+let instructors = [];
+let requirements = [];
 const updateDetailedInfo = false;
 
 const delay = ms => new Promise(resolve => setTimeout(resolve, ms))
@@ -139,8 +141,15 @@ getCourseInformation(term).then(data => {
       courses[title].activeSections[sectionLessonType] = "" // fix
     }
     courses[title].sections[sectionLessonType][course.Section] = course;
-    courses[title].possibleRequirements.push(...course.Reqs);
+    courses[title].possibleRequirements.push(...course.Reqs.map(req => req["Desc"]));
+    course.Reqs.map(req => req["Desc"]).forEach(req => {
+      if (requirements.indexOf(req) === -1) { requirements.push(req);}
+    });
     courses[title].possibleInstructors.push(...course.Instructors.map(i => i["Display"]));
+    course.Instructors.map(i => i["Display"]).forEach(i => {
+      const fixed = i.replace(/'/g, "\\'")
+      if (instructors.indexOf(fixed) === -1) { instructors.push(fixed)}
+    });
 
 
     // const ordered = Object.keys(courses[title].sections[sectionLessonType]).sort().reduce(
@@ -172,6 +181,8 @@ getCourseInformation(term).then(data => {
 
   const courseList = Object.values(courses);
   fs.writeFileSync('updateCourses/backup.json', JSON.stringify(courses, null, 2));
+  fs.writeFileSync('updateCourses/requirements.js', 'export const requirements = ' + JSON.stringify(requirements, null, 2));
+  fs.writeFileSync('updateCourses/instructors.js', 'export const instructors = ' + JSON.stringify(instructors, null, 2));
 
   const client = algoliasearch(process.env.NEXT_PUBLIC_ALGOLIA_APP_ID, process.env.NEXT_PUBLIC_ALGOLIA_ADMIN_API);
   const course_index = client.initIndex(term);

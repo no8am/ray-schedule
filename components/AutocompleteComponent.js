@@ -12,6 +12,7 @@ import AccessTimeFilledIcon from '@mui/icons-material/AccessTimeFilled';
 import ExpandLess from '@mui/icons-material/ExpandLess';
 import ExpandMore from '@mui/icons-material/ExpandMore';
 
+import ToggleDays from './ToggleDays';
 import { makeStyles } from '@mui/styles';
 
 import parse from 'autosuggest-highlight/parse';
@@ -20,6 +21,9 @@ import algoliasearch from 'algoliasearch/lite';
 
 import { useSelector, useDispatch } from "react-redux";
 import { selectCourses, setCourses } from '../src/features/userCourses/userCoursesSlice';
+
+import { instructors } from '../updateCourses/instructors';
+import { requirements } from '../updateCourses/requirements';
 
 const AutocompleteComponent = (props) => {
 
@@ -38,6 +42,8 @@ const AutocompleteComponent = (props) => {
     const [filteredCourseList, setFilteredCourseList] = useState([]);
     const [facets, setFacets] = useState({});
 
+    const [days, setDays] = useState([]);
+
     const noFilterIcon = props?.noFilterIcon;
     const [open, setOpen] = useState(false);
     const toggleOpen = () => setOpen(!open);
@@ -53,21 +59,35 @@ const AutocompleteComponent = (props) => {
       name: 'Instructor',
       skipName: true,
       icon: <RecordVoiceOverIcon />,
-      comp: (<TextField 
-        size="small" fullWidth 
+      comp: (<Autocomplete 
         label="Instructor" 
-        variant="outlined" 
+        variant="outlined" size="small" fullWidth
+        options={instructors}
         value={facets["possibleInstructors"]}
-        onChange={(e) => {
-          setFacets({...facets, possibleInstructors: e.target.value})
+        renderInput={(params) => <TextField {...params} label="Instructor" variant="outlined" size="small" fullWidth />}
+        onChange={(e, newValue) => {
+          setFacets({...facets, possibleInstructors: newValue})
         }}
       />)
     },{
       name: 'CCC Requirement',
+      skipName: true,
       icon: <LibraryAddCheckIcon />,
+      comp: (<Autocomplete 
+        label="CCC Requirement" 
+        variant="outlined" size="small" fullWidth
+        options={requirements}
+        value={facets["possibleRequirements"]}
+        renderInput={(params) => <TextField {...params} label="CCC Requirement" variant="outlined" size="small" fullWidth />}
+        onChange={(e, newValue) => {
+          setFacets({...facets, possibleRequirements: newValue})
+        }}
+      />)
     },{
       name: 'Time',
+      skipName: true,
       icon: <AccessTimeFilledIcon />,
+      comp: (<ToggleDays days={days} setDays={setDays} />)
     }];
 
     useEffect(() => {
@@ -81,8 +101,9 @@ const AutocompleteComponent = (props) => {
             "snippetEllipsisText": "…",
             "responseFields": "*",
             "explain": "*",
-            // facetFilters: [["possibleInstructors:Koutsoliotas, Sally"]]
-            facetFilters: Object.keys(facets).map(facet => `${facet}: ${facets[facet]}`),
+            facetFilters: Object.keys(facets)
+              .filter(facet => facets[facet])
+              .map(facet => `${facet}: ${facets[facet]}`),
           })
           .then(({ hits }) => {
             setFilteredCourseList(hits)
