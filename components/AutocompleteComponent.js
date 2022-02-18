@@ -13,6 +13,7 @@ import ExpandLess from '@mui/icons-material/ExpandLess';
 import ExpandMore from '@mui/icons-material/ExpandMore';
 
 import ToggleDays from './ToggleDays';
+import ToggleTimes from './ToggleTimes';
 import { makeStyles } from '@mui/styles';
 
 import parse from 'autosuggest-highlight/parse';
@@ -43,6 +44,7 @@ const AutocompleteComponent = (props) => {
     const [facets, setFacets] = useState({});
 
     const [days, setDays] = useState([]);
+    const [times, setTimes] = useState(["", ""]);
 
     const noFilterIcon = props?.noFilterIcon;
     const [open, setOpen] = useState(false);
@@ -53,6 +55,16 @@ const AutocompleteComponent = (props) => {
     const setReduxCourses = (props) => {
       let coursesCopy = [...props.courses];
       dispatch(setCourses(coursesCopy));
+    }
+
+    const clearFacetsAndFilters = () => {
+      setDays([]);
+      setTimes(["", ""]);
+      setFacets({
+        possibleInstructors: "",
+        possibleRequirements: "",
+      });
+      setOpen(false);
     }
 
     const facetTypes = [{
@@ -87,7 +99,10 @@ const AutocompleteComponent = (props) => {
       name: 'Time',
       skipName: true,
       icon: <AccessTimeFilledIcon />,
-      comp: (<ToggleDays days={days} setDays={setDays} />)
+      comp: (<>
+        <ToggleDays days={days} setDays={setDays} facets={facets} setFacets={setFacets} />
+        <ToggleTimes times={times} setTimes={setTimes} facets={facets} setFacets={setFacets} />
+      </>)
     }];
 
     useEffect(() => {
@@ -138,9 +153,14 @@ const AutocompleteComponent = (props) => {
         )}
       />
       {!noFilterIcon && (
-        <Button startIcon={open ? (<ExpandLess />) : (<ExpandMore />)} variant="outlined" color="primary" onClick={toggleOpen}>
+        <div className="flex flex-row gap-1">
+        <Button startIcon={open ? (<ExpandLess />) : (<ExpandMore />)} variant="outlined" color="primary" onClick={toggleOpen} fullWidth>
           Show course filters
         </Button>
+        <Button startIcon={<LibraryAddCheckOutlinedIcon />} variant="outlined" color="error" onClick={() => clearFacetsAndFilters()}>
+          Clear
+        </Button>
+        </div>
       )}
       <Collapse in={open} timeout="auto" unmountOnExit>
         <List
@@ -156,7 +176,7 @@ const AutocompleteComponent = (props) => {
               {facetType.comp}
             </ListItem>
           ))}
-          <ListItem>          
+          <ListItem disabled={true}>          
             <ListItemIcon>
               <LibraryAddCheckOutlinedIcon />
             </ListItemIcon>

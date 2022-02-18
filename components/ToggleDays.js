@@ -25,34 +25,41 @@ const DAYS = [
   },
 ];
 
+const myDays = ["M", "T", "W", "R", "F"];
+
 const StyledToggleButtonGroup = withStyles(theme => ({
   grouped: {
     "&:not(:last-child)": {
-        borderRadius: '4px',
+        borderTopRightRadius: '50%!important',
+        borderBottomRightRadius: '50%!important',
     },
-    margin: theme.spacing(2),
+    margin: theme.spacing(0.25, 1),
     padding: theme.spacing(0, 1),
     "&:not(:first-child)": {
-    //   border: "1px solid",
+      border: "1px solid",
+      borderLeft: "1px solid!important",
     //   borderColor: "#692B7C",
-    //   borderRadius: "50%"
+      borderTopLeftRadius: "50%!important",
+      borderBottomLeftRadius: "50%!important",
+      borderRadius: "50%",
     },
     "&:first-child": {
         marginLeft: theme.spacing(0),
-    //   border: "1px solid",
+      border: "1px solid",
     //   borderColor: "#692B7C",
-    //   borderRadius: "50%"
+      borderRadius: "50%"
     },
-  }
+  },
+  borderRadius: "50%",
 }))(ToggleButtonGroup);
 
 const StyledToggle = withStyles({
   root: {
     // color: "#692B7C",
-    // "&$selected": {
-    //   color: "white",
-    //   background: "#692B7C"
-    // },
+    "&$selected": {
+      color: "white",
+      background: "#692B7C"
+    },
     // "&:hover": {
     //   borderColor: "#BA9BC3",
     //   background: "#BA9BC3"
@@ -71,17 +78,27 @@ const StyledToggle = withStyles({
 })(ToggleButton);
 
 const ToggleDays = (props) => {
-  const {days, setDays} = props;
+  const {days, setDays, facets, setFacets} = props;
   return (
     <>
       <StyledToggleButtonGroup
         size="small"
         arial-label="Days of the week"
         value={days}
-        onChange={(event, value) => setDays(value)}
+        onChange={(event, value) => {
+            setDays(value); 
+            setFacets({
+                ...facets, 
+                ...Object.fromEntries(myDays.map(v => [`possibleMeetings.${v}`, value.indexOf(v) != -1 ? "Y" : ""])),
+            });
+        }}
       >
         {DAYS.map((day, index) => (
-          <StyledToggle key={day.key} value={index} aria-label={day.key}>
+          <StyledToggle 
+            key={day.key} 
+            value={day.label} 
+            aria-label={day.key} 
+        >
             {day.label}
           </StyledToggle>
         ))}
