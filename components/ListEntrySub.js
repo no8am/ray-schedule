@@ -12,6 +12,7 @@ import IconButton from '@mui/material/IconButton';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
+import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 
 const ListEntrySub = (props) => {
 
@@ -73,15 +74,25 @@ const ListEntrySub = (props) => {
       dense={true}
     >
       <ListItemIcon>
-          <Typography variant="body1">
-            {section?.Section}
-          </Typography>
+        <Typography variant="body1">
+          {section?.Section}
+        </Typography>
       </ListItemIcon>
       <ListItemText 
           id={`switch-list-label-${section.Section}`}
           primary={((showTitle && (sectionType == "A")) ? section.Title : formatMeetingTime(section.Meetings))}
           secondary={((showTitle && (sectionType == "A")) ? (formatMeetingTime(section.Meetings) + " — ") : ("")) + (section?.Instructors?.map(instructor => instructor.Display.split(',').reverse().join(" ")).join(', '))}
       />
+      <IconButton 
+        edge="end" 
+        aria-label="info"
+        onClick={(e) => {
+          e.preventDefault();
+          window.open(`https://banner.ban.bucknell.edu/prodssb/hwzkdpac.P_Bucknell_CGUpdate?formopt=VIEWSECT&term=${section.Term}&updsubj=${section.Subj}&crn=${section.Crn}&viewterm=${section.Term}`, "_blank");
+        }}
+      >
+        <InfoOutlinedIcon />
+      </IconButton>
     </ListItemButton>
   )
 }

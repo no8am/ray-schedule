@@ -2,7 +2,7 @@ import React from 'react';
 
 import { ScheduleComponent, WorkWeek, Inject, ViewsDirective, ViewDirective } from '@syncfusion/ej2-react-schedule';
 import { Button } from '@mui/material';
-import { Room, Person, Schedule } from '@mui/icons-material';
+import { Room, Person, Schedule, Delete, Edit } from '@mui/icons-material';
 
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
@@ -10,9 +10,10 @@ import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import Typography from '@mui/material/Typography';
+import IconButton from '@mui/material/IconButton';
 
-import { useSelector } from "react-redux";
-import { selectCourses } from '../src/features/userCourses/userCoursesSlice';
+import { useSelector, useDispatch } from "react-redux";
+import { selectCourses, deleteCourse } from '../src/features/userCourses/userCoursesSlice';
 
 const handleHour = (hour) => {
   if (hour == 0) {
@@ -36,6 +37,8 @@ const pickTextColor = (bgColor, lightColor, darkColor) => {
 }
 
 const NewSchedule = (props) => {
+
+  const dispatch = useDispatch();
 
   const courses = useSelector(selectCourses); 
   const intervals = courses.map(course => {
@@ -175,23 +178,43 @@ const NewSchedule = (props) => {
   }
 
   const headerTemplate = (props) => {
-    console.log(props)
+    // console.log(props)
     const c = pickTextColor(props.CategoryColor, "#fff", "#000");
     return(
-      <div className="px-5 py-3">
-        <Typography variant="h6" sx={{color: c, fontWeight: 'bold'}}>
-          {props.Subject}
-        </Typography>
-        <Typography variant="subtitle1" sx={{color: c}}>
-          {props.FullName}
-        </Typography>
+      <div className="px-5 py-3 flex flex-row">
+        <div>
+          <Typography variant="h6" sx={{color: c, fontWeight: 'bold'}}>
+            {props.Subject}
+          </Typography>
+          <Typography variant="subtitle1" sx={{color: c}}>
+            {props.FullName}
+          </Typography>
+        </div>
+        <div className="self-start content-end flex flex-row">
+          {/* <IconButton 
+            aria-label="info"
+            onClick={(e) => {
+
+            }}
+            disabled={true}
+          >
+            <Edit fontSize="small" />
+          </IconButton>
+          <IconButton 
+            aria-label="delete" 
+            disabled={true}
+            onClick={(e) => {
+              // dispatch(removeCourse(course.objectID))
+            }}
+          >
+            <Delete fontSize="small" />
+          </IconButton> */}
+        </div>
       </div>
     )}
 
   return (
     <ScheduleComponent 
-      // width = {width}
-      // height = {height}
       className = "schedule"
       readonly = {true}
       timeScale={{ enable: true, interval: 60, slotCount: 2 }}

@@ -11,6 +11,7 @@ import Typography from '@mui/material/Typography';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import DeleteIcon from '@mui/icons-material/Delete';
 import Collapse from '@mui/material/Collapse';
+import InfoIcon from '@mui/icons-material/Info';
 
 import List from '@mui/material/List';
 import ListItemButton from '@mui/material/ListItemButton';
@@ -51,11 +52,22 @@ const CourseCard = ({ course }) => {
             &nbsp;
           </Avatar>
         }
-        title={<b>{course.title}</b>}
-        subheader={(course.lectureSectionsHaveDifferentTitle && (course.activeSections["A"] != "")) ? course.sections.A[course.activeSections.A].Title : ""}
-        action={(<IconButton aria-label="delete" onClick={() => dispatch(removeCourse(course.objectID))}>
-          <DeleteIcon>{course.objectID}</DeleteIcon>
-        </IconButton>)}
+        title={<b>{course.title.split(" - ")[0]}</b>}
+        subheader={(course.lectureSectionsHaveDifferentTitle && (course.activeSections["A"] != "")) ? course.sections.A[course.activeSections.A].Title : course.title.split(" - ")[1]}
+        action={(<div className="flex flex-row gap-1">
+          <IconButton 
+            aria-label="info"
+            onClick={(e) => {
+              e.preventDefault();
+              window.open(`https://banner.ban.bucknell.edu/prodssb/bwckctlg.p_disp_course_detail?cat_term_in=${course.objectID.substring(0, 6)}&subj_code_in=${course.objectID.substring(6, 10)}&crse_numb_in=${course.objectID.substring(10)}`, "_blank");
+            }}
+          >
+            <InfoIcon />
+          </IconButton>
+          <IconButton aria-label="delete" onClick={() => dispatch(removeCourse(course.objectID))}>
+            <DeleteIcon>{course.objectID}</DeleteIcon>
+          </IconButton>
+        </div>)}
       />
       <List dense={true} className="w-full">
         {(unselectedSectionTypes.length > 0) && (

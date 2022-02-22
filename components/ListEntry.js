@@ -47,7 +47,7 @@ const ListEntry = (props) => {
   />)
 
   return(
-    <React.Fragment>
+    <React.Fragment className="w-full">
       {theseSections.length > 1 ? (
         <div className="w-full">
           <ListItemButton 
@@ -86,7 +86,7 @@ const ListEntry = (props) => {
           </Collapse>
         </div>
       ) : (
-        <div>
+        <div className="w-full">
           { coolSections }
         </div>
       )}
