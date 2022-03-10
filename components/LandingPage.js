@@ -1,6 +1,7 @@
 import { Fade } from '@mui/material';
 import { Card, CardContent, Typography, CardActions, Button, ButtonBase } from '@mui/material';
 import { compiler } from 'markdown-to-jsx';
+import Link from 'next/link'
 
 import markdownOptions from '../components/markdownOptions';
 
@@ -14,10 +15,14 @@ export default function LandingPage () {
             <div className={"flex flex-row flex-wrap items-stretch justify-center gap-4 w-5/6 sm:w-full"}>
               {compiler(`
 
-### *New*: **Smart Schedule**
+### Welcome to ***'ray* schedule**.
 
 Bucknell's new, smarter, and more efficient scheduling solution is here.
+
               `, markdownOptions)}
+              <Link href="/app" passHref={true}>
+                <Button variant="outlined" color="primary"> Use the app 😎 </Button>
+              </Link>
             </div>
           </div>
         </Fade>
