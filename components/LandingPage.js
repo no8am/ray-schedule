@@ -15,7 +15,7 @@ export default function LandingPage () {
             <div className={"flex flex-row flex-wrap items-stretch justify-center gap-4 w-5/6 sm:w-full"}>
               {compiler(`
 
-### Welcome to ***'ray* schedule**.
+### Welcome to ***'ray*&nbsp;schedule**.
 
 Bucknell's new, smarter, and more efficient scheduling solution is here.
 

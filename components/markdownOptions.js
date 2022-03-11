@@ -34,6 +34,21 @@ const markdownOptions = {
         variant: 'h5',
       },
     },
+    a: {
+      component: 'a',
+      props: {
+        target: '_blank',
+        rel: 'noopener noreferrer',
+        className: 'text-blue-500 hover:text-blue-700 underline transition duration-200 ease-in-out',
+      },
+    },
+    ul: {
+      component: 'ul',
+      props: {
+        className: 'list-disc',
+        start: 1,
+      },
+    },
   },
 }
 
