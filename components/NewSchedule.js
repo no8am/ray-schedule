@@ -254,7 +254,7 @@ const NewSchedule = (props) => {
             </Typography>
             <IconButton
               aria-label="delete"
-              onClick={(e) => {
+              onClick={() => {
                 dispatch(removeCourse(props.objectID));
               }}
             >
