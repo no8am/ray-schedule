@@ -41,6 +41,16 @@ const userCoursesSlice = createSlice({
         removeCourse: (state, action) => {
             state.courses = [...state.courses.filter(course => course.objectID !== action.payload)]
         },
+        shiftCourseUp: (state, action) => {
+            let coursesCopy = [...state.courses]
+            let cID = coursesCopy.findIndex(c => c.objectID == action.payload)
+            if (cID == 0) {
+                return
+            }
+            let removed = coursesCopy.splice(cID, 1)
+            coursesCopy.unshift(removed[0])
+            state.courses = coursesCopy
+        },
         setSchedules: (state, action) => {
             state.schedules = action.payload
         },
@@ -64,6 +74,7 @@ export const {
     removeCourse,
     updateSection,
     setSchedules,
+    shiftCourseUp,
     unsetSchedules,
     addSchedule,
     unsetAll,
