@@ -47,7 +47,7 @@ const ListEntry = (props) => {
   />)
 
   return(
-    <React.Fragment className="w-full">
+    <div className="w-full">
       {theseSections.length > 1 ? (
         <div className="w-full">
           <ListItemButton 
@@ -90,7 +90,7 @@ const ListEntry = (props) => {
           { coolSections }
         </div>
       )}
-    </React.Fragment>
+    </div>
   )
 }
 

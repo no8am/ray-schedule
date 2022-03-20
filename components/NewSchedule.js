@@ -17,13 +17,16 @@ import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import Typography from "@mui/material/Typography";
 import IconButton from "@mui/material/IconButton";
+import Tooltip from "@mui/material/Tooltip";
 
 import { useSelector, useDispatch } from "react-redux";
 import {
   selectCourses,
   removeCourse,
+  updateSection,
   shiftCourseUp,
 } from "../src/features/userCourses/userCoursesSlice";
+import { courseAliasesIcons } from '/updateCourses/utils'
 
 const handleHour = (hour) => {
   if (hour == 0) {
@@ -83,6 +86,8 @@ const NewSchedule = (props) => {
                       id: course.objectID,
                       start,
                       end,
+                      sectionType,
+                      section: sectionId,
                       courseSubjNumb: `${section.Subj} ${section.Number}`,
                       courseTitle: section.Title,
                       color: course.color,
@@ -139,6 +144,8 @@ const NewSchedule = (props) => {
     const description = "coming soon!";
     return {
       Subject: interval.courseSubjNumb,
+      SectionType: interval.sectionType,
+      Section: interval.section,
       objectID: interval.id,
       FullName: interval.courseTitle,
       StartTime: new Date(
@@ -245,6 +252,10 @@ const NewSchedule = (props) => {
 
   const headerTemplate = (props) => {
     const c = pickTextColor(props.CategoryColor, "#fff", "#000");
+    const course = courses[courses.findIndex(course => course.objectID === props.objectID)];
+    const sectionTypeName = courseAliasesIcons[props.SectionType].type;
+    const multiNonLecture = Object.keys(course.sections[props.SectionType]).length == 1
+    console.log(props)
     return (
       <div className="px-5 py-3 flex flex-row">
         <div className="w-full">
@@ -252,17 +263,24 @@ const NewSchedule = (props) => {
             <Typography variant="h6" sx={{ color: c, fontWeight: "bold" }}>
               {props.Subject}
             </Typography>
-            <IconButton
-              aria-label="delete"
-              onClick={() => {
-                dispatch(removeCourse(props.objectID));
-              }}
-            >
-              <Delete fontSize="small" />
-            </IconButton>
+            <Tooltip title={multiNonLecture ? "Delete this course from your schedule" : `Delete this ${sectionTypeName} from your schedule`}>
+              <IconButton
+                aria-label="delete"
+                onClick={() => {
+                  if (multiNonLecture) {
+                    dispatch(removeCourse(props.objectID));
+                  } else {
+                    dispatch(updateSection({courseId: props.objectID, sectionType: props.SectionType, section: ""}));
+                  }
+                  eventRef.current.closeQuickInfoPopup();
+                }}
+              >
+                <Delete fontSize="small" sx={{ color: c }}/>
+              </IconButton>
+            </Tooltip>
           </div>
           <Typography variant="subtitle1" sx={{ color: c }}>
-            {props.FullName}
+            {props.FullName}&nbsp;—&nbsp;{sectionTypeName} {/* &nbsp;({props.Section}) */}
           </Typography>
         </div>
       </div>
@@ -283,6 +301,8 @@ const NewSchedule = (props) => {
           dataSource: data,
           fields: {
             subject: { name: "Subject" },
+            section: { name: "Section" },
+            sectionType: { name: "SectionType" },
             fullName: { name: "FullName" },
             isAllDay: { name: "IsAllDay" },
             startTime: { name: "StartTime" },
