@@ -1,0 +1,22 @@
+export const requirements = [
+  "Natural Science and Mathematics",
+  "First year course",
+  "Lab Science",
+  "Natural Science and Mathematics Learning Goals",
+  "Social Science",
+  "Social Science Learning Goals",
+  "Writing Level 2",
+  "Diversity in the U.S.",
+  "Environmental Connections",
+  "Arts and Humanities",
+  "Foreign Language",
+  "Global Connections",
+  "Quantitative Reasoning",
+  "Arts and Humanities Learning Goals",
+  "Foundation Seminar",
+  "Writing Level 1",
+  "Community Engaged Learning",
+  "Integrated Perspectives",
+  "Community Based Learning",
+  "Residential College"
+]

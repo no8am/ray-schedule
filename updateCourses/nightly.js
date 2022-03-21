@@ -188,6 +188,7 @@ getCourseInformation(term).then(data => {
   const course_index = client.initIndex(term);
   course_index
     .partialUpdateObjects(courseList)
+    // .saveObjects(courseList) // when initializing new index
     .then(({ objectIDs }) => {
       console.log(objectIDs);
       console.log("done updating")
