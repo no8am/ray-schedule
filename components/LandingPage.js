@@ -17,14 +17,15 @@ export default function LandingPage () {
 
 ### Welcome to ***'ray*&nbsp;schedule**.
 
-#### *Now updated for all your Fall 2022 scheduling needs.*
-
 Bucknell's new, smarter, and more efficient scheduling solution is here.
 
               `, markdownOptions)}
               <Link href="/app" passHref={true}>
-                <Button variant="outlined" color="primary" size='large'> Use the app 😎 </Button>
+                <Button variant='contained' color="primary" size='large'> Use the app 😎 </Button>
               </Link>
+              {compiler(`
+*Now updated for all of your Fall 2022 scheduling needs.*
+              `, markdownOptions)}
             </div>
           </div>
         </Fade>
