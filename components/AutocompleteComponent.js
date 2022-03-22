@@ -139,11 +139,14 @@ const AutocompleteComponent = (props) => {
         multiple
         value={courses}
         {...noFilterIcon ? {open: true} : {}}
-        onChange={(e, courses) => setReduxCourses({courses, e})}
+        onChange={(e, courses) => {
+          setReduxCourses({courses, e})
+        }}
         onInputChange={(e, query) => setQuery(query) }
         id="add-course-autocomplete"
         options={filteredCourseList}
         getOptionLabel={option => option.title}
+        isOptionEqualToValue = {(option, value) => option.objectID == value.objectID}
         renderInput={params => (
           <TextField
             {...params}

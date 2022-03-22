@@ -16,17 +16,22 @@ const userCoursesSlice = createSlice({
     reducers: {
         setCourses: (state, action) => {
             let prevCourses = [...state.courses]
-            let previousIDsDict = {}
-            prevCourses.forEach(e => {
-                previousIDsDict[e.objectID] = 1
-            })
-            for (let course of action.payload) {
-                if (!(course.objectID in previousIDsDict)) {
-                    prevCourses.unshift(course)
-                    break
+            let newCourses = action.payload
+            if (prevCourses.length <= newCourses.length) { // added a course
+                let previousIDsDict = {}
+                prevCourses.forEach(e => {
+                    previousIDsDict[e.objectID] = 1
+                })
+                for (let course of newCourses) {
+                    if (!(course.objectID in previousIDsDict)) {
+                        prevCourses.unshift(course)
+                        break
+                    }
                 }
+                state.courses = prevCourses
+            } else { 
+                state.courses = newCourses
             }
-            state.courses = prevCourses
         },
         unsetCourses: (state) => {
             state.courses = null
