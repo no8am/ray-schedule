@@ -15,8 +15,18 @@ const userCoursesSlice = createSlice({
     initialState,
     reducers: {
         setCourses: (state, action) => {
-          state.courses = action.payload
-          // console.log(state.courses)
+            let prevCourses = [...state.courses]
+            let previousIDsDict = {}
+            prevCourses.forEach(e => {
+                previousIDsDict[e.objectID] = 1
+            })
+            for (let course of action.payload) {
+                if (!(course.objectID in previousIDsDict)) {
+                    prevCourses.unshift(course)
+                    break
+                }
+            }
+            state.courses = prevCourses
         },
         unsetCourses: (state) => {
             state.courses = null
