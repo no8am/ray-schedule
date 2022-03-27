@@ -178,16 +178,13 @@ const NewSchedule = (props) => {
       : ["", ""];
     const instructorList = props.Instructors.split(", ");
     const instructorLinks = instructorList.map((instructor, index) => {
-      let instructorPretty = instructor.split(" ");
-      if (instructorPretty.length > 3) {
-        instructorPretty.splice(self.length - 2, 1);
-      }
-      instructorPretty = instructorPretty.join("%20");
+      let wordArr = instructor.trim().split(" ");
+      wordArr.splice(1, wordArr.length - 2);
       const end = index === instructorList.length - 1 ? " " : <br />;
       return (
         <span key={index}>
           <a
-            href={`https://www.ratemyprofessors.com/search/teachers?query=${instructorPretty}&sid=U2Nob29sLTE0MA==`}
+            href={`https://www.ratemyprofessors.com/search/teachers?query=${wordArr.join("%20")}&sid=U2Nob29sLTE0MA==`}
             target="_blank"
             rel="noopener noreferrer"
           >
