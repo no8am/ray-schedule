@@ -18,6 +18,30 @@ function MyApp({ Component, pageProps }) {
         <Head>
           <title>&apos;ray schedule - the student-made course scheduling solution</title>
 
+          {/* <!-- HTML Meta Tags --> */}
+          <meta name="description" content="A new, smarter, and more efficient scheduling solution is here for Bucknell University students." />
+
+          {/* <!-- Facebook Meta Tags --> */}
+          <meta property="og:url" content="http://rayschedule.com/" />
+          <meta property="og:type" content="website" />
+          <meta property="og:title" content="'ray schedule 😎" />
+          <meta property="og:description" content="A new, smarter, and more efficient scheduling solution is here for Bucknell University students." />
+          <meta property="og:image" content="/logo-wallpaper.png" />
+
+          {/* <!-- Twitter Meta Tags --> */}
+          <meta name="twitter:card" content="summary_large_image" />
+          <meta property="twitter:domain" content="rayschedule.com" />
+          <meta property="twitter:url" content="http://rayschedule.com/" />
+          <meta name="twitter:title" content="'ray schedule 😎" />
+          <meta name="twitter:description" content="A new, smarter, and more efficient scheduling solution is here for Bucknell University students." />
+          <meta name="twitter:image" content="/logo-wallpaper.png" />
+
+          {/* {Apple touch icon} */}
+          <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+
+          {/* <!-- Meta Tags Generated via https://www.opengraph.xyz --> */}
+      
+
           <link href="/dist/output.css" rel="stylesheet" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
 
