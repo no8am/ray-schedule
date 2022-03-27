@@ -3,11 +3,11 @@ import { createSlice, current } from '@reduxjs/toolkit'
 let initialState;
 if (typeof window !== 'undefined' && localStorage.getItem('userCourses')) {
   initialState = JSON.parse(localStorage.getItem('userCourses'))
-} else{
+} else {
   initialState = {
     courses: [],
     schedules: null,
-}
+  }
 }
 
 const userCoursesSlice = createSlice({

@@ -46,12 +46,12 @@ const ToggleTimes = (props) => {
 
   return (
     <div className="gap-1 w-full flex flex-row h-8">
-      <FormControl className="w-full h-8">
+      <FormControl className="w-full" size='small'>
       {/* <FormControl className="w-1/2 h-8"> */}
       <InputLabel id="select-start">Start</InputLabel>
       <Select
         value={times[0]}
-        className="w-full h-8"
+        className="w-full"
         sx={{fontSize: '.6rem'}}
         id="select-start"
         variant="outlined"

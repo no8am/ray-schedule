@@ -1,16 +1,19 @@
 import React, { useState, useEffect } from 'react'
 
 import Autocomplete from '@mui/material/Autocomplete';
-import { TextField, Chip, Tooltip, Button, List, ListItem, ListItemIcon, ListItemText, Typography, Collapse } from '@mui/material';
+import { TextField, Chip, Tooltip, IconButton, Button, List, ListItem, ListItemIcon, ListItemText, Typography, Collapse, InputAdornment } from '@mui/material';
 
 import FilterListIcon from '@mui/icons-material/FilterList';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import RecordVoiceOverIcon from '@mui/icons-material/RecordVoiceOver';
 import LibraryAddCheckIcon from '@mui/icons-material/LibraryAddCheck';
 import LibraryAddCheckOutlinedIcon from '@mui/icons-material/LibraryAddCheckOutlined';
+import PlaylistRemoveIcon from '@mui/icons-material/PlaylistRemove';
+import DeleteSweepIcon from '@mui/icons-material/DeleteSweep';
 import AccessTimeFilledIcon from '@mui/icons-material/AccessTimeFilled';
 import ExpandLess from '@mui/icons-material/ExpandLess';
 import ExpandMore from '@mui/icons-material/ExpandMore';
+import CloseIcon from '@mui/icons-material/Close';
 
 import ToggleDays from './ToggleDays';
 import ToggleTimes from './ToggleTimes';
@@ -99,10 +102,10 @@ const AutocompleteComponent = (props) => {
       name: 'Time',
       skipName: true,
       icon: <AccessTimeFilledIcon />,
-      comp: (<>
+      comp: (<div className='w-full gap-1 flex flex-row items-center'>
         <ToggleDays days={days} setDays={setDays} facets={facets} setFacets={setFacets} />
         <ToggleTimes times={times} setTimes={setTimes} facets={facets} setFacets={setFacets} />
-      </>)
+      </div>)
     }];
 
     useEffect(() => {
@@ -136,6 +139,7 @@ const AutocompleteComponent = (props) => {
         disablePortal={noFilterIcon}
         autoHighlight
         filterSelectedOptions={true}
+        disableClearable={true}
         multiple
         value={courses}
         {...noFilterIcon ? {open: true} : {}}
@@ -152,16 +156,33 @@ const AutocompleteComponent = (props) => {
             {...params}
             className="w-full"
             label="Add course"
+            // InputProps={{
+            //   ...params.InputProps,
+            //   endAdornment: (
+            //     <>
+            //       {params.InputProps.endAdornment}
+            //       <InputAdornment position="end">
+            //         <IconButton
+            //           onClick={() => setQuery("")}
+            //           edge="end"
+            //         >
+            //           <CloseIcon />
+            //         </IconButton>
+            //       </InputAdornment>
+            //     </>
+            //   ),
+            // }}
           />
         )}
+        ChipProps={{
+          variant: "outlined",
+          size: "small",
+        }}
       />
       {!noFilterIcon && (
         <div className="flex flex-row gap-1">
         <Button startIcon={open ? (<ExpandLess />) : (<ExpandMore />)} variant="outlined" color="primary" onClick={toggleOpen} fullWidth>
-          Show course filters
-        </Button>
-        <Button startIcon={<LibraryAddCheckOutlinedIcon />} variant="outlined" color="error" onClick={() => clearFacetsAndFilters()}>
-          Clear
+          Show more options
         </Button>
         </div>
       )}
@@ -184,7 +205,34 @@ const AutocompleteComponent = (props) => {
               <LibraryAddCheckOutlinedIcon />
             </ListItemIcon>
             <ListItemText>Pre-requisite&nbsp;</ListItemText>
-            <Typography variant="caption" color="secondary" >(beta)</Typography>
+            <Typography variant="caption" color="secondary" >(in development)</Typography>
+          </ListItem>
+          <ListItem className="flex flex-row gap-2">
+            <Button 
+              startIcon={<PlaylistRemoveIcon />} 
+              className="w-full"
+              size="small"
+              variant="outlined" 
+              color="secondary" 
+              onClick={() => {
+                clearFacetsAndFilters();
+              }}>
+              Clear Filters
+            </Button>
+            <Tooltip title="This will permanently remove all courses from this schedule!">
+              <Button 
+                startIcon={<DeleteSweepIcon />} 
+                className="w-full"
+                size='small'
+                variant="outlined" 
+                color="error" 
+                onClick={() => {
+                  clearFacetsAndFilters();
+                  setReduxCourses({courses: []})
+                }}>
+                Clear Courses
+              </Button>
+            </Tooltip>
           </ListItem>
         </List>
       </Collapse>
