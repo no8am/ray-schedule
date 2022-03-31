@@ -14,6 +14,7 @@ import AccessTimeFilledIcon from '@mui/icons-material/AccessTimeFilled';
 import ExpandLess from '@mui/icons-material/ExpandLess';
 import ExpandMore from '@mui/icons-material/ExpandMore';
 import CloseIcon from '@mui/icons-material/Close';
+import WarningIcon from '@mui/icons-material/Warning';
 
 import ToggleDays from './ToggleDays';
 import ToggleTimes from './ToggleTimes';
@@ -54,11 +55,37 @@ const AutocompleteComponent = (props) => {
     const toggleOpen = () => setOpen(!open);
 
     const courses = useSelector(selectCourses); 
-    const totalCredits = 0
-    if (courses.length > 0) {
-      courses.map(course => totalCredits += course.sections.A["01"]['Credit'])
+    const totalCredits = courses.reduce((acc, course) => {
+      return (acc + Object.keys(course.activeSections)
+        .filter(sectionType => course.activeSections[sectionType] != "")
+        .reduce((acc, sectionType) => {
+          return acc + course.sections[sectionType][course.activeSections[sectionType]].Credit;
+        }, 0))
+    }, 0);
+
+    const InfoChip = (params) => {
+      return (
+        <Chip
+          {...params}
+          size="large"
+          variant="filled"
+        />
+      )
     }
-    // console.log(courses[0].sections.A["01"]['Credit'])
+
+    const creditInfo = (totalCredits) => {
+      if (totalCredits <= 0) {
+        return ["default", "Credit count will show up here as you add courses."]
+      } else if (totalCredits < 3) {
+        return ["error", "This number of courses is too low for a valid registration."]
+      } else if (totalCredits < 4) {
+        return ["warning", "This number of courses is an underload, which likely requires dean's permission."]
+      } else if (totalCredits < 5) {
+        return ["primary", "This number of courses is valid for registration."]
+      } else {
+        return ["warning", "This number of courses is an overload, which likely requires dean's permission."]
+      }
+    }
 
     const setReduxCourses = (props) => {
       let coursesCopy = [...props.courses];
@@ -136,12 +163,30 @@ const AutocompleteComponent = (props) => {
         
     return (
     <div className="flex flex-col w-full gap-2">
-      <div className="">{totalCredits} {totalCredits == 1 ? 'credit' : 'credits'}</div>
+      <div className="flex flex-row gap-1">
+        <Tooltip title={creditInfo(totalCredits)[1]}>
+          <InfoChip 
+            icon={<LibraryAddCheckOutlinedIcon />} 
+            label={`${totalCredits} ${totalCredits == 1 ? 'credit' : 'credits'}`} 
+            color={creditInfo(totalCredits)[0]}
+          />
+        </Tooltip>
+        {(courses.reduce((acc, course) => 
+            acc + Object.keys(course.activeSections).filter(sectionType => 
+              course.activeSections[sectionType] == ""
+            )
+          .length, 0)) > 0 && <InfoChip 
+          icon={<WarningIcon />}
+          label={"Sections"}
+          color="warning"
+        />}
+      </div>
       <Autocomplete
         size="small"
         className="w-full"
         limitTags={0}
-        getLimitTagsText={(value) => `${value} course${(value != 1) ? 's' : ""} selected`}
+        // getLimitTagsText={(value) => `${value} course${(value != 1) ? 's' : ""} selected`}
+        getLimitTagsText={v => ""}
         disablePortal={noFilterIcon}
         autoHighlight
         filterSelectedOptions={true}
