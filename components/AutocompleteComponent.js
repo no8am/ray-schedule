@@ -54,6 +54,11 @@ const AutocompleteComponent = (props) => {
     const toggleOpen = () => setOpen(!open);
 
     const courses = useSelector(selectCourses); 
+    const totalCredits = 0
+    if (courses.length > 0) {
+      courses.map(course => totalCredits += course.sections.A["01"]['Credit'])
+    }
+    // console.log(courses[0].sections.A["01"]['Credit'])
 
     const setReduxCourses = (props) => {
       let coursesCopy = [...props.courses];
@@ -131,6 +136,7 @@ const AutocompleteComponent = (props) => {
         
     return (
     <div className="flex flex-col w-full gap-2">
+      <div className="">{totalCredits} {totalCredits == 1 ? 'credit' : 'credits'}</div>
       <Autocomplete
         size="small"
         className="w-full"
