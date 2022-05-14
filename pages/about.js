@@ -37,16 +37,16 @@ export default function About() {
 #### **Current Team**
               `, markdownOptions)}
               <Grid container spacing={5}>
-                <Person name="Nick DeMarchis '22" title="Lead Developer" image="https://avatars.githubusercontent.com/u/65045396?v=4" links={["http://nickdemarchis.com", "http://github.com/ndemarchis", "http://linkedin.com/in/nickdemarchis"]}/>
                 <Person name="Anh Tran '24" title="Developer" image="https://avatars.githubusercontent.com/u/44528372?v=4" links={["https://github.com/Slayzur02", "https://www.linkedin.com/in/anh-tran-8a8b32202/"]}/>
                 <Person name="Minh Bui '23" title="Developer" image="https://avatars.githubusercontent.com/u/29977238?v=4" links={["https://github.com/buiminh1995", "https://www.linkedin.com/in/minhbui19/"]} />
-                <Person name="Christina Yu '22" title="Designer" image="https://avatars.githubusercontent.com/u/54337204?v=4" links={["https://www.linkedin.com/in/christinajyu/"]} />
               </Grid>
               {compiler(`
 #### **Past Team**
               `, markdownOptions)}
               <Grid container spacing={5}>
-                <Person name="Jimmy Wei '21" title="" image="https://avatars.githubusercontent.com/u/2521639?v=4" links={["https://www.linkedin.com/in/chiehmin-wei/"]} />
+                <Person name="Jimmy Wei '21" title="Founder" image="https://avatars.githubusercontent.com/u/2521639?v=4" links={["https://www.linkedin.com/in/chiehmin-wei/"]} />
+                <Person name="Nick DeMarchis '22" title="f. Lead Developer" image="https://avatars.githubusercontent.com/u/65045396?v=4" links={["http://nickdemarchis.com", "http://github.com/ndemarchis", "http://linkedin.com/in/nickdemarchis"]}/>
+                <Person name="Christina Yu '22" title="f. Designer" image="https://avatars.githubusercontent.com/u/54337204?v=4" links={["https://www.linkedin.com/in/christinajyu/"]} />
               </Grid>
               {compiler(`
 ### *Our Vision*
