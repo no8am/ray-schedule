@@ -49,6 +49,23 @@ export default function About() {
                 <Person name="Christina Yu '22" title="f. Designer" image="https://avatars.githubusercontent.com/u/54337204?v=4" links={["https://www.linkedin.com/in/christinajyu/"]} />
               </Grid>
               {compiler(`
+#### **Special Thanks**
+              `, markdownOptions)}
+              <Grid container spacing={5}>
+                <Person name="Nadeem Nasimi '17" title="Founder, no8am" image="https://avatars.githubusercontent.com/u/6021541?v=4" links={["https://www.linkedin.com/in/nasimi/"]} />
+                <Person name="Tony Tomashefski '14" title="Co-creator, ScheduleFast" image="https://via.placeholder.com/128/fff.jpg" links={["https://www.linkedin.com/in/tony-tomashefski-41654b38/"]}/>
+                <Person name="Zachary Crowley '16" title="Co-creator, ScheduleFast" image="https://via.placeholder.com/128/fff.jpg" links={["https://www.linkedin.com/in/zachary-crowley-b4596759/"]} />
+              </Grid>
+              {compiler(`
+
+Read more about the previous projects to tackle course scheduling at Bucknell:
+- no8am
+    - [Archived site](http://web.archive.org/web/20181123163546/https://no8.am/)
+    - [in the Bucknellian](https://bucknellian.net/80003/features/the-brain-behind-no8am/)
+- ScheduleFast
+    - [Archived site](http://web.archive.org/web/20141123163546/https://schedulefast.com/)
+    - [in the Bucknellian](https://bucknellian.net/46737/news/online-scheduling-turf-war-divides-students/)
+
 ### *Our Vision*
 
 To make scheduling courses here at Bucknell as easy and convenient as possible.
