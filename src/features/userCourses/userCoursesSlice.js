@@ -2,7 +2,8 @@ import { createSlice, current } from '@reduxjs/toolkit'
 
 const initialState = {
     courses: [],
-    schedules: null,
+    schedules: [],
+    id: null,
 }
 
 const userCoursesSlice = createSlice({
@@ -40,14 +41,30 @@ const userCoursesSlice = createSlice({
             state.schedules = action.payload
         },
         unsetSchedules: (state) => {
-            state.schedules = null
+            state.schedules = []
         },
         addSchedule: (state, action) => {
             // something!
         },
+        setAll: (state, action) => {
+            state.courses = action.payload.courses
+            state.schedules = action.payload.schedules
+            state.id = action.payload.id
+        },
         unsetAll: (state) => {
-            state.courses = null
-            state.schedules = null
+            state.courses = []
+            state.schedules = []
+            state.id = null
+        },
+        setId: (state, action) => {
+            console.log("before")
+            console.log(current(state))
+            state.id = action.payload
+            console.log("after")
+            console.log(current(state))
+        },
+        unsetId: (state) => {
+            state.id = null
         }
     }
 });
@@ -61,11 +78,16 @@ export const {
     setSchedules,
     unsetSchedules,
     addSchedule,
+    setAll,
     unsetAll,
+    setId,
+    unsetId,
 } = userCoursesSlice.actions
 
 export const selectCourses = state => state.userCourses.courses
 export const selectSchedules = state => state.userCourses.schedules
+export const selectId = state => state.userCourses.id
+export const selectAll = state => state.userCourses
 
 // export const selectUserName = state => state.user.userName
 // export const selectUserEmail = state => state.user.userEmail

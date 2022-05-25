@@ -24,7 +24,7 @@ const Login = () => {
             const db = getDatabase();
             const userDataRef = ref(db, result.user.uid);
             const updates = {};
-            updates[uid] = {courses: {}, schedules: {}};
+            updates[uid] = {courses: [], schedules: []};
 
             update(db, updates);
             // get(userDataRef, (snapshot) => {
@@ -52,8 +52,8 @@ const Login = () => {
     }
 
     const newUser = (uid) => {
-        const courses = {}
-        const schedules = {}
+        const courses = []
+        const schedules = []
         const db = getDatabase();
 
         const updates = {};
