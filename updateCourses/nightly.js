@@ -180,18 +180,48 @@ getCourseInformation(term).then(data => {
   })
 
   const courseList = Object.values(courses);
+  console.log(courseList.length)
   fs.writeFileSync('updateCourses/backup.json', JSON.stringify(courses, null, 2));
   fs.writeFileSync('updateCourses/requirements.js', 'export const requirements = ' + JSON.stringify(requirements, null, 2));
   fs.writeFileSync('updateCourses/instructors.js', 'export const instructors = ' + JSON.stringify(instructors, null, 2));
 
-  const client = algoliasearch(process.env.NEXT_PUBLIC_ALGOLIA_APP_ID, process.env.NEXT_PUBLIC_ALGOLIA_ADMIN_API);
-  const course_index = client.initIndex(term);
-  course_index
-    .partialUpdateObjects(courseList)
-    // .saveObjects(courseList) // when initializing new index
-    .then(({ objectIDs }) => {
-      console.log(objectIDs);
-      console.log("done updating")
-    })
-    .catch (err => console.error (err));
+  // updates algolia.
+  // const client = algoliasearch(process.env.NEXT_PUBLIC_ALGOLIA_APP_ID, process.env.NEXT_PUBLIC_ALGOLIA_ADMIN_API);
+  // const course_index = client.initIndex(term);
+
+  // const ADD_SIZE = 15;
+  // const coursesLength = courseList.length
+  // let curr = 0
+  
+  // while (curr <= coursesLength) {
+  //   let courseListShort = courseList.slice(curr, curr + ADD_SIZE);
+  //   course_index
+  //   .saveObjects(courseListShort)
+  //   .then(({objectIDs}) => {
+  //     console.log(objectIDs);
+  //   })
+  //   .catch(err => {
+  //     console.log(err);
+  //   })
+
+  //   curr += ADD_SIZE
+  // }
+  // console.log("done updating");
+
+
+
+  // course_index
+  //   // .partialUpdateObjects(courseListShort) // when updating existing terms
+  //   .saveObjects(courseListShort) // when initializing new index
+  //   .then(({ objectIDs }) => {
+  //     console.log(objectIDs);
+  //     console.log("done updating")
+  //   })
+  //   .catch (err => {
+  //     console.error (err)
+
+  //     for (var i = 0; i < err["transporterStackTrace"].length; i++) {
+  //       console.error(err["transporterStackTrace"][i])
+  //     }
+  //   });
 });
