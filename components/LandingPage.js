@@ -24,7 +24,7 @@ Bucknell's new, smarter, and more efficient scheduling solution is here.
                 <Button variant='contained' color="primary" size='large'> Use the app 😎 </Button>
               </Link>
               {compiler(`
-*Now updated for all of your Spring 2023 scheduling needs.*
+*Now updated for all of your Fall 2024 scheduling needs.*
               `, markdownOptions)}
             </div>
           </div>

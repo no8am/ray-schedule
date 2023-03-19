@@ -185,28 +185,30 @@ getCourseInformation(term).then(data => {
   fs.writeFileSync('updateCourses/requirements.js', 'export const requirements = ' + JSON.stringify(requirements, null, 2));
   fs.writeFileSync('updateCourses/instructors.js', 'export const instructors = ' + JSON.stringify(instructors, null, 2));
 
-  // updates algolia.
-  // const client = algoliasearch(process.env.NEXT_PUBLIC_ALGOLIA_APP_ID, process.env.NEXT_PUBLIC_ALGOLIA_ADMIN_API);
-  // const course_index = client.initIndex(term);
+  // updates algolia. Comment out to test. 
+  const client = algoliasearch(process.env.NEXT_PUBLIC_ALGOLIA_APP_ID, process.env.NEXT_PUBLIC_ALGOLIA_ADMIN_API);
+  const course_index = client.initIndex(term);
 
-  // const ADD_SIZE = 15;
-  // const coursesLength = courseList.length
-  // let curr = 0
+  const ADD_SIZE = 10;
+  const coursesLength = courseList.length
+  let curr = 0
   
-  // while (curr <= coursesLength) {
-  //   let courseListShort = courseList.slice(curr, curr + ADD_SIZE);
-  //   course_index
-  //   .saveObjects(courseListShort)
-  //   .then(({objectIDs}) => {
-  //     console.log(objectIDs);
-  //   })
-  //   .catch(err => {
-  //     console.log(err);
-  //   })
+  while (curr <= coursesLength) {
+    let courseListShort = courseList.slice(curr, curr + ADD_SIZE);
+    course_index
+    .saveObjects(courseListShort)
+    .then(({objectIDs}) => {
+      console.log(objectIDs);
+    })
+    .catch(err => {
+      console.log(err);
+    })
 
-  //   curr += ADD_SIZE
-  // }
-  // console.log("done updating");
+    curr += ADD_SIZE
+    console.log(curr)
+    console.log(coursesLength)
+  }
+  console.log("done updating");
 
 
 

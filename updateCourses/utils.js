@@ -298,25 +298,25 @@ export const parseCredits = (courses) => {
   return totalCredits;
 }
 
-export const courseAliasesIcons = {
-  "A": {
-    type: "Lecture",
-    icon: <RecordVoiceOverOutlinedIcon />,
-  },
-  "L": {
-    type: "Lab",
-    icon: <ScienceOutlinedIcon />,
-  },
-  "P": {
-    type: "Problem Session",
-    icon: <StickyNote2OutlinedIcon />,
-  },
-  "C": {
-    type: "Common Hour",
-    icon: <GroupsOutlinedIcon />,
-  },
-  "R": {
-    type: "Recitation",
-    icon: <QuestionAnswerOutlinedIcon />,
-  },
-}
+// export const courseAliasesIcons = {
+//   "A": {
+//     type: "Lecture",
+//     icon: <RecordVoiceOverOutlinedIcon />,
+//   },
+//   "L": {
+//     type: "Lab",
+//     icon: <ScienceOutlinedIcon />,
+//   },
+//   "P": {
+//     type: "Problem Session",
+//     icon: <StickyNote2OutlinedIcon />,
+//   },
+//   "C": {
+//     type: "Common Hour",
+//     icon: <GroupsOutlinedIcon />,
+//   },
+//   "R": {
+//     type: "Recitation",
+//     icon: <QuestionAnswerOutlinedIcon />,
+//   },
+// }
