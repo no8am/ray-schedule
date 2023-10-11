@@ -17,7 +17,7 @@ export default function LandingPage () {
 
 ### Welcome to ***'ray*&nbsp;schedule**.
 
-Bucknell's new, smarter, and more efficient scheduling solution is here.
+Bucknell's efficient scheduling solution is here.
 
               `, markdownOptions)}
               <Link href="/app" passHref={true}>
