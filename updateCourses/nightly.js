@@ -184,8 +184,10 @@ getCourseInformation(term).then(data => {
   fs.writeFileSync('updateCourses/backup.json', JSON.stringify(courses, null, 2));
   fs.writeFileSync('updateCourses/requirements.js', 'export const requirements = ' + JSON.stringify(requirements, null, 2));
   fs.writeFileSync('updateCourses/instructors.js', 'export const instructors = ' + JSON.stringify(instructors, null, 2));
+  
 
   // updates algolia. Comment out to test. 
+
   const client = algoliasearch(process.env.NEXT_PUBLIC_ALGOLIA_APP_ID, process.env.NEXT_PUBLIC_ALGOLIA_ADMIN_API);
   const course_index = client.initIndex(term);
 
