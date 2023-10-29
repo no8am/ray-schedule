@@ -184,7 +184,7 @@ const NewSchedule = (props) => {
       return (
         <span key={index}>
           <a
-            href={`https://www.ratemyprofessors.com/search/teachers?query=${wordArr.join("%20")}&sid=U2Nob29sLTE0MA==`}
+            href={`https://www.ratemyprofessors.com/search/professors/140?q=${encodeURIComponent(wordArr.join(" "))}`}
             target="_blank"
             rel="noopener noreferrer"
           >
