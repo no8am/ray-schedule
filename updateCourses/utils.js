@@ -298,6 +298,7 @@ export const parseCredits = (courses) => {
   return totalCredits;
 }
 
+
 export const courseAliasesIcons = {
   "A": {
     type: "Lecture",
