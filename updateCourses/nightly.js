@@ -211,21 +211,4 @@ getCourseInformation(term).then(data => {
     console.log(coursesLength)
   }
   console.log("done updating");
-
-
-
-  // course_index
-  //   // .partialUpdateObjects(courseListShort) // when updating existing terms
-  //   .saveObjects(courseListShort) // when initializing new index
-  //   .then(({ objectIDs }) => {
-  //     console.log(objectIDs);
-  //     console.log("done updating")
-  //   })
-  //   .catch (err => {
-  //     console.error (err)
-
-  //     for (var i = 0; i < err["transporterStackTrace"].length; i++) {
-  //       console.error(err["transporterStackTrace"][i])
-  //     }
-  //   });
 });
